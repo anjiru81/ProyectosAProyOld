@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import jcifs.smb.SmbFile;
+
 public class Parser {
 
 	boolean OK = false;
@@ -89,7 +91,9 @@ public class Parser {
 		return root;
 	}
 	public void lookForInFolder(String folder){
-				
+	//	 SmbFile archivo = null;
+	//	UnidadRed ur = new UnidadRed();		
+	//	archivo = new SmbFile(unidadRed.apuntarPath());
 	}
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
