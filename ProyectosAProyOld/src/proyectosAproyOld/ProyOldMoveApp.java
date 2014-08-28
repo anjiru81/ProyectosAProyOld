@@ -47,7 +47,8 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 	private JButton btnGenerar;
 	private JScrollPane scrollPane_arbol;
 	private Parser p;
-	private SimpleAttributeSet GreenAttr;   
+	private SimpleAttributeSet GreenAttr; 
+	private SimpleAttributeSet BlackAttr;
 	private JTextPane consola;
 	private SimpleAttributeSet ConsolaAttr;
 
@@ -91,8 +92,10 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 	private void initialize() {
 		p = new Parser();
 		GreenAttr = new SimpleAttributeSet(); 
+		BlackAttr = new SimpleAttributeSet(); 
 		ConsolaAttr = new SimpleAttributeSet();
 		StyleConstants.setForeground(GreenAttr, new Color(0,169,39));
+		StyleConstants.setForeground(BlackAttr, Color.BLACK);
 		StyleConstants.setForeground(ConsolaAttr, new Color(0,169,39));
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 600);
@@ -157,16 +160,16 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 
 			tree.setEditable(true);
 			tree.setCellRenderer(new ProyOldMovTreeCellRenderer());
-		//	DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
-			
-			
+			//	DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
+
+
 			String elements[] = { "Root", "chartreuse", "rugby", "sushi" };
 			JComboBox<String> comboBox = new JComboBox<String>(elements);
 			comboBox.setEditable(true);
-		//	TreeCellEditor comboEditor = new DefaultCellEditor(comboBox);
-		//	TreeCellEditor editor = new DefaultTreeCellEditor(tree, renderer,
-		//			comboEditor);
-		//	tree.setCellEditor(editor);
+			//	TreeCellEditor comboEditor = new DefaultCellEditor(comboBox);
+			//	TreeCellEditor editor = new DefaultTreeCellEditor(tree, renderer,
+			//			comboEditor);
+			//	tree.setCellEditor(editor);
 			// scrollPane_arbol.add(tree);
 			scrollPane_arbol.setViewportView(tree);
 
@@ -187,14 +190,29 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 	@Override
 	public void insertUpdate(DocumentEvent arg0) {
 		// TODO Auto-generated method stub
-		this. revisarSintaxis();
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				revisarSintaxis();
+				//((StyledDocument) editorPane.getDocument()).setCharacterAttributes(0,10, GreenAttr, true);
+			}
+		});
+
 	}
 
 	@Override
 	public void removeUpdate(DocumentEvent arg0) {
 		// TODO Auto-generated method stub
 
-		this. revisarSintaxis();
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				revisarSintaxis();
+				//((StyledDocument) editorPane.getDocument()).setCharacterAttributes(0,10, GreenAttr, true);
+			}
+		});
 	}
 	public void revisarSintaxis(){
 
@@ -206,20 +224,16 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 			String [] salida = p.getTextLines(this.editorPane.getDocument().getText(0,this.editorPane.getDocument().getLength()));
 
 			for(int i = 0; i < salida.length; i++){
-
-				if(p.esComentario(salida[i])||salida[i].equals("")){
-					//					SwingUtilities.invokeLater(new Runnable()
-					//					{
-					//						public void run()
-					//						{
-					//							((StyledDocument) editorPane.getDocument()).setCharacterAttributes(0,10, GreenAttr, true);
-					//						}
-					//					});
+				((StyledDocument) editorPane.getDocument()).setCharacterAttributes(offset,offset + salida[i].length(), BlackAttr, false);
+				if(p.esComentario(salida[i])){
+				//	System.out.println("1: "+offset+" "+(offset + salida[i].length())+" "+salida[i]);
+					((StyledDocument) editorPane.getDocument()).setCharacterAttributes(offset,offset + salida[i].length(), GreenAttr, false);
+			//		System.out.println("2: "+offset+" "+(offset + salida[i].length()));
 
 					offset+=salida[i].length() + 1;
 					continue;
-
-
+				}else if(p.esBlank(salida[i])){
+					//offset+=salida[i].length() + 1;
 				}else if(p.comprobarCaracteresIlegales(salida[i])){
 					if(offset>0){
 						hl.addHighlight(offset - 1,offset + salida[i].length() , painter );

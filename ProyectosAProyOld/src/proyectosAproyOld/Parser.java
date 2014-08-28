@@ -22,6 +22,16 @@ public class Parser {
 		}
 
 	}
+	public boolean esBlank(String linea){
+		Pattern pat = Pattern.compile("\\s*\t*");
+		Matcher mat = pat.matcher(linea);
+		if (mat.matches()) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 	public Empresa parseaEmpresa(String linea) throws Exception{
 		Empresa empresa = null;
 		String [] campos = linea.split("\\s*:\\s*");
@@ -101,14 +111,20 @@ public class Parser {
 		int j = 0;
 
 		//String linea = "          Mutua Madrileña   : 130397; 130396;130428;";
-		String linea = "          Mutua Madrileña   : 130397; 130396";
-		System.out.println(p.comprobarCaracteresIlegales(linea));
-		String [] salida = p.getTextLines("kasjdklajsdkljasd\n jkasjd");
-		System.out.println("kasjdklajsdkljasd\n jkasjd");
-		for(int i = 0; i < salida.length; i++){
-		System.out.println(salida[i] + " " + i);
-		}
-		p.parseaEmpresa("hola:  123;   456   ;   ");
+//		String linea = "          Mutua Madrileña   : 130397; 130396";
+//		System.out.println(p.comprobarCaracteresIlegales(linea));
+//		String [] salida = p.getTextLines("kasjdklajsdkljasd\n jkasjd");
+//		System.out.println("kasjdklajsdkljasd\n jkasjd");
+//		for(int i = 0; i < salida.length; i++){
+//		System.out.println(salida[i] + " " + i);
+//		}
+//		p.parseaEmpresa("hola:  123;   456   ;   ");
+		String blank = "";
+		String comentario = "";
+		System.out.println(blank+"blank : " + p.esBlank(blank));
+		System.out.println("comentario : "+p.esComentario(comentario));
+		
+		
 		//		String [] campos = linea.split("\\s*:\\s*");
 		//
 		//		if(campos.length !=2){
