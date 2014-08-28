@@ -23,7 +23,7 @@ public class Parser {
 
 	}
 	public boolean esBlank(String linea){
-		Pattern pat = Pattern.compile("\\s*\t*");
+		Pattern pat = Pattern.compile("\\s*\t*\n*");
 		Matcher mat = pat.matcher(linea);
 		if (mat.matches()) {
 			return true;
@@ -119,7 +119,7 @@ public class Parser {
 //		System.out.println(salida[i] + " " + i);
 //		}
 //		p.parseaEmpresa("hola:  123;   456   ;   ");
-		String blank = "";
+		String blank = "\n     \n \t";
 		String comentario = "";
 		System.out.println(blank+"blank : " + p.esBlank(blank));
 		System.out.println("comentario : "+p.esComentario(comentario));

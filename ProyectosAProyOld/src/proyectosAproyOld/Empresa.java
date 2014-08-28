@@ -10,7 +10,7 @@ public class Empresa extends DefaultMutableTreeNode{
 		super(nombre);
 	}
 	public void addProyecto(String proyecto){
-		this.add(new DefaultMutableTreeNode(proyecto));
+		this.add(new Proyecto(proyecto));
 	}
 	public boolean isOK() {
 		return OK;

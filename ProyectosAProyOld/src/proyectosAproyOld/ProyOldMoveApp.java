@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.event.DocumentEvent;
@@ -37,6 +38,7 @@ import java.awt.Font;
 import javax.swing.JTextPane;
 
 import java.awt.Dimension;
+
 import javax.swing.JLabel;
 
 public class ProyOldMoveApp implements ActionListener, DocumentListener{
@@ -61,7 +63,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 			public void run() {
 				try {
 					for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-						if ("Nimbus".equals(info.getName())) {
+						if ("Windows".equals(info.getName())) {
 							UIManager.setLookAndFeel(info.getClassName());
 							break;
 						}
@@ -116,10 +118,6 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		JPanel panel_botones = new JPanel();
 		wrap_pane.add(panel_botones, BorderLayout.SOUTH);
 
-		JButton btnNewButton = new JButton("Analizar");
-		//tnNewButton.addActionListener(this);
-		panel_botones.add(btnNewButton);
-
 		btnGenerar = new JButton("Generar");
 		btnGenerar.addActionListener(this);
 		btnGenerar.setEnabled(false);
@@ -157,7 +155,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		JTree tree;
 		try {
 			tree = new JTree(p.generarArbolEmpresas(p.getTextLines(this.editorPane.getDocument().getText(0,this.editorPane.getDocument().getLength()))));
-
+			ToolTipManager.sharedInstance().registerComponent(tree);
 			tree.setEditable(true);
 			tree.setCellRenderer(new ProyOldMovTreeCellRenderer());
 			//	DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
@@ -247,7 +245,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 			}
 
 			Highlight[] hlh = hl.getHighlights();
-			if( hlh == null || hlh.length == 0){
+			if( hlh == null || ( hlh.length == 0 && !p.esBlank(this.editorPane.getDocument().getText(0,this.editorPane.getDocument().getLength()) ))){
 				this.btnGenerar.setEnabled(true);
 			}else{
 
