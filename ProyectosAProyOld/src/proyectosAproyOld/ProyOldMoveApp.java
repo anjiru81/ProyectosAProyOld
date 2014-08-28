@@ -40,6 +40,10 @@ import javax.swing.JTextPane;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.ButtonGroup;
 
 public class ProyOldMoveApp implements ActionListener, DocumentListener{
 
@@ -53,6 +57,9 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 	private SimpleAttributeSet BlackAttr;
 	private JTextPane consola;
 	private SimpleAttributeSet ConsolaAttr;
+	private JTextField textField;
+	private JPasswordField passwordField;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -143,6 +150,38 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		scrollPane_arbol = new JScrollPane();
 		scrollPane_arbol.setPreferredSize(new Dimension(250, 3));
 		panel_arbol.add(scrollPane_arbol);
+		
+		JPanel panel_accesos = new JPanel();
+		frame.getContentPane().add(panel_accesos, BorderLayout.NORTH);
+		
+		JLabel lblCredenciales = new JLabel("Credenciales");
+		panel_accesos.add(lblCredenciales);
+		
+		JRadioButton rbLocal = new JRadioButton("Local");
+		buttonGroup.add(rbLocal);
+		panel_accesos.add(rbLocal);
+		
+		JRadioButton rbLocalServer = new JRadioButton("Local Servidor");
+		buttonGroup.add(rbLocalServer);
+		panel_accesos.add(rbLocalServer);
+		
+		JRadioButton rdbtnLdap = new JRadioButton("LDAP");
+		buttonGroup.add(rdbtnLdap);
+		panel_accesos.add(rdbtnLdap);
+		
+		JLabel lblUsuario = new JLabel("Usuario");
+		panel_accesos.add(lblUsuario);
+		
+		textField = new JTextField();
+		panel_accesos.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblContrasea = new JLabel("Contrase\u00F1a");
+		panel_accesos.add(lblContrasea);
+		
+		passwordField = new JPasswordField();
+		passwordField.setColumns(10);
+		panel_accesos.add(passwordField);
 
 
 
