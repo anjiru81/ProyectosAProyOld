@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -44,6 +45,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.ButtonGroup;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class ProyOldMoveApp implements ActionListener, DocumentListener{
 
@@ -60,6 +63,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private UnidadRed ur;
 
 	/**
 	 * Launch the application.
@@ -150,39 +154,43 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		scrollPane_arbol = new JScrollPane();
 		scrollPane_arbol.setPreferredSize(new Dimension(250, 3));
 		panel_arbol.add(scrollPane_arbol);
-		
+
 		JPanel panel_accesos = new JPanel();
 		frame.getContentPane().add(panel_accesos, BorderLayout.NORTH);
-		
+
 		JLabel lblCredenciales = new JLabel("Credenciales");
 		panel_accesos.add(lblCredenciales);
-		
+
 		JRadioButton rbLocal = new JRadioButton("Local");
+		rbLocal.addActionListener(this);
+		rbLocal.setSelected(true);
 		buttonGroup.add(rbLocal);
 		panel_accesos.add(rbLocal);
-		
+
 		JRadioButton rbLocalServer = new JRadioButton("Local Servidor");
+		rbLocalServer.addActionListener(this);
 		buttonGroup.add(rbLocalServer);
 		panel_accesos.add(rbLocalServer);
-		
+
 		JRadioButton rdbtnLdap = new JRadioButton("LDAP");
+		rdbtnLdap.addActionListener(this);
 		buttonGroup.add(rdbtnLdap);
 		panel_accesos.add(rdbtnLdap);
-		
+
 		JLabel lblUsuario = new JLabel("Usuario");
 		panel_accesos.add(lblUsuario);
-		
+
 		textField = new JTextField();
 		panel_accesos.add(textField);
 		textField.setColumns(10);
-		
+		textField.setEnabled(false);
 		JLabel lblContrasea = new JLabel("Contrase\u00F1a");
 		panel_accesos.add(lblContrasea);
-		
+
 		passwordField = new JPasswordField();
 		passwordField.setColumns(10);
 		panel_accesos.add(passwordField);
-
+		passwordField.setEnabled(false);
 
 
 	}
@@ -190,7 +198,57 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//	this. revisarSintaxis();
+		if(e.getActionCommand().equals("Generar")){
+			this.insertarArbol();
+		}else if(e.getActionCommand().equals("Local")){
+			this.passwordField.setEnabled(false);
+			this.textField.setEnabled(false);
+		}else if(e.getActionCommand().equals("Local Servidor")){
+			this.passwordField.setEnabled(true);
+			this.textField.setEnabled(true);
+			JOptionPane.showMessageDialog(frame,
+					"Rellena los datos de conexión antes de introducir usuario y contraseña",
+					"",
+					JOptionPane.WARNING_MESSAGE);
+		}else if(e.getActionCommand().equals("LDAP")){
+			this.passwordField.setEnabled(true);
+			this.textField.setEnabled(true);
+		}	
+	}
 
+
+	@Override
+	public void changedUpdate(DocumentEvent arg0) {
+
+	}
+
+	@Override
+	public void insertUpdate(DocumentEvent arg0) {
+
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				revisarSintaxis();
+			}
+		});
+
+	}
+
+	@Override
+	public void removeUpdate(DocumentEvent arg0) {
+
+
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				revisarSintaxis();
+
+			}
+		});
+	}
+	public void insertarArbol(){
 		JTree tree;
 		try {
 			tree = new JTree(p.generarArbolEmpresas(p.getTextLines(this.editorPane.getDocument().getText(0,this.editorPane.getDocument().getLength()))));
@@ -216,41 +274,6 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 			consola.setText(consola.getText()+"\n"+e1.getMessage());
 		}
 	}
-
-
-	@Override
-	public void changedUpdate(DocumentEvent arg0) {
-		// TODO Auto-generated method stub
-		//	this. revisarSintaxis();
-	}
-
-	@Override
-	public void insertUpdate(DocumentEvent arg0) {
-		// TODO Auto-generated method stub
-		SwingUtilities.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				revisarSintaxis();
-				//((StyledDocument) editorPane.getDocument()).setCharacterAttributes(0,10, GreenAttr, true);
-			}
-		});
-
-	}
-
-	@Override
-	public void removeUpdate(DocumentEvent arg0) {
-		// TODO Auto-generated method stub
-
-		SwingUtilities.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				revisarSintaxis();
-				//((StyledDocument) editorPane.getDocument()).setCharacterAttributes(0,10, GreenAttr, true);
-			}
-		});
-	}
 	public void revisarSintaxis(){
 
 		try {
@@ -263,9 +286,9 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 			for(int i = 0; i < salida.length; i++){
 				((StyledDocument) editorPane.getDocument()).setCharacterAttributes(offset,offset + salida[i].length(), BlackAttr, false);
 				if(p.esComentario(salida[i])){
-				//	System.out.println("1: "+offset+" "+(offset + salida[i].length())+" "+salida[i]);
+					//	System.out.println("1: "+offset+" "+(offset + salida[i].length())+" "+salida[i]);
 					((StyledDocument) editorPane.getDocument()).setCharacterAttributes(offset,offset + salida[i].length(), GreenAttr, false);
-			//		System.out.println("2: "+offset+" "+(offset + salida[i].length()));
+					//		System.out.println("2: "+offset+" "+(offset + salida[i].length()));
 
 					offset+=salida[i].length() + 1;
 					continue;
