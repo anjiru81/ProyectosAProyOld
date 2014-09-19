@@ -75,10 +75,10 @@ public class UnidadRed
 	 {
 	 // PropertyResourceBundle resb = (PropertyResourceBundle) 
 	  //                                        ResourceBundle.getBundle("properties.unidad");
-	  //UnidadRed unidadRed = new UnidadRed();
-	//  archivo = new SmbFile(unidadRed.apuntarPath());
-	//  archivo = new SmbFile(unidadRed.apuntarPath()+ "/readme.txt");  
-	 // System.out.println(unidadRed.copyFiles(archivo,"Esto es un fichero de texto","readme.txt"));
+	 // UnidadRed unidadRed = new UnidadRed();
+	// archivo = new SmbFile(unidadRed.apuntarPath());
+//  archivo = new SmbFile(unidadRed.apuntarPath()+ "/readme.txt");  
+ // System.out.println(unidadRed.copyFiles(archivo,"Esto es un fichero de texto","readme.txt"));
 	  String[]lista = archivo.list();
 	  for(int i=0;i<lista.length;i++){
 	  System.out.println(lista[i]);

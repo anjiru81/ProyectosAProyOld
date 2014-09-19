@@ -1,6 +1,11 @@
 package proyectosAproyOld;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,7 +15,35 @@ import jcifs.smb.SmbFile;
 
 public class Parser {
 
-	boolean OK = false;
+	private LinkedList<String> rutas_origen;
+	private String ruta_destino;
+	public Parser(){
+		Properties propiedades = new Properties();
+	    InputStream entrada = null;
+	    rutas_origen = new LinkedList<String>();
+	    try {
+	        entrada = this.getClass().getResourceAsStream("configuracion.properties");
+	        // cargamos el archivo de propiedades
+	        propiedades.load(entrada);
+	        // obtenemos las propiedades y las imprimimos
+	        int num_rutas=Integer.parseInt(propiedades.getProperty("num_rutas"));
+	        for(int i=0;i<num_rutas;i++){
+	        	rutas_origen.add(propiedades.getProperty("ruta"+i));
+	        }
+	        ruta_destino = propiedades.getProperty("ruta_destino");
+//	       
+	    } catch (IOException ex) {
+	        ex.printStackTrace();
+	    } finally {
+	        if (entrada != null) {
+	            try {
+	                entrada.close();
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	}
 	//Primero hay que haber pasado un trim() a linea
 	public boolean esComentario(String linea){
 		Pattern pat = Pattern.compile("%.*");
@@ -44,12 +77,13 @@ public class Parser {
 			
 			String [] campos2 = proyectos.split("\\s*;\\s*");
 			empresa = new Empresa(nombreEmpresa);
+			empresa.setRutas_Origen(rutas_origen);
+			empresa.setRuta_destino(ruta_destino);
 			for(int i = 0;i < campos2.length; i++){
 				empresa.addProyecto(campos2[i]);
 			}
 		}
-		empresa.setOK(OK);
-		OK=!OK;
+		
 		return empresa;
 	}
 
@@ -106,7 +140,7 @@ public class Parser {
 	//	archivo = new SmbFile(unidadRed.apuntarPath());
 	}
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
+		
 		Parser p = new Parser();
 		int j = 0;
 

@@ -10,17 +10,6 @@ import javax.swing.tree.TreeCellRenderer;
 
 public class ProyOldMovTreeCellRenderer extends JLabel implements TreeCellRenderer {
 
-	//	   private JButton botonIcono = new JButton();
-	//	   private JButton botonTexto = new JButton();
-	//	   private ImageIcon iconoHoja = new ImageIcon("d:/futbol.gif");
-	//	   private ImageIcon iconoAbierto = new ImageIcon("d:/hombre.gif");
-	//	   private ImageIcon iconoCerrado = new ImageIcon("d:/viejo.gif");
-	//	public MiRender()
-	//	{
-	//	   add(botonIcono);
-	//	   add(botonTexto);
-	//	   setOpaque(false);
-	//	}
 
 	//    tree El árbol sobre el que se dibujará la foto del Component que devolvamos.
 	//    value El nodo que tenemos que dibujar. Aquí estarán los datos que se quieran dibujar y normalmente será un TreeNode.
@@ -34,39 +23,35 @@ public class ProyOldMovTreeCellRenderer extends JLabel implements TreeCellRender
 	public Component getTreeCellRendererComponent(JTree tree, Object value,
 			boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 		// TODO Auto-generated method stub
-		
+
 		// Se pone el icono adecuado
-//		   if (leaf)
-//		   {
-//		      botonIcono.setIcon(iconoHoja);
-//		   }
-//		   else if (expanded)
-//		   {
-//		      botonIcono.setIcon(iconoAbierto);
-//		   }
-//		   else
-//		   {
-//		      botonIcono.setIcon(iconoCerrado);
-//		   }
+		//		   if (leaf)
+		//		   {
+		//		      botonIcono.setIcon(iconoHoja);
+		//		   }
+		//		   else if (expanded)
+		//		   {
+		//		      botonIcono.setIcon(iconoAbierto);
+		//		   }
+		//		   else
+		//		   {
+		//		      botonIcono.setIcon(iconoCerrado);
+		//		   }
 		//System.out.println(((DefaultMutableTreeNode)value)+ " " + String.valueOf((value instanceof Proyecto)));
 		if(value instanceof Empresa || value instanceof Proyecto){
-			if(((Empresa)value).isOK()){
-				//System.out.println("OK");
-				this.setForeground(Color.GREEN);
-			}else{
-				this.setForeground(Color.RED);
-			//	System.out.println("NOK");
-			}
+
+			this.setForeground(Color.GREEN);
+
 		}else{
 			this.setForeground(Color.BLACK);
 		}
 		//this.setForeground(Color.RED);
-		   // Y el texto.
-		   this.setText(((DefaultMutableTreeNode) value).getUserObject().toString());
-		   this.setToolTipText(value.toString());
-		   return this;
-		
-	//	return null;
+		// Y el texto.
+		this.setText(((DefaultMutableTreeNode) value).getUserObject().toString());
+		this.setToolTipText(value.toString());
+		return this;
+
+		//	return null;
 	}
 
 }
