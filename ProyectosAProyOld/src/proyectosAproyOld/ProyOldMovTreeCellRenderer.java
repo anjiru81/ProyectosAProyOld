@@ -23,32 +23,28 @@ public class ProyOldMovTreeCellRenderer extends JLabel implements TreeCellRender
 	public Component getTreeCellRendererComponent(JTree tree, Object value,
 			boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 		// TODO Auto-generated method stub
+		
+		
+		if(value instanceof Empresa ){
+			if(((Empresa)value).isErrorEnRutas()){
+				this.setOpaque(false);
+				this.setForeground(Color.GREEN);
+			}else{
+				this.setForeground(Color.RED);
+				this.setOpaque(true);
+				this.setBackground(Color.YELLOW);
+				this.setToolTipText(((Empresa)value).getMsg());
+			}
 
-		// Se pone el icono adecuado
-		//		   if (leaf)
-		//		   {
-		//		      botonIcono.setIcon(iconoHoja);
-		//		   }
-		//		   else if (expanded)
-		//		   {
-		//		      botonIcono.setIcon(iconoAbierto);
-		//		   }
-		//		   else
-		//		   {
-		//		      botonIcono.setIcon(iconoCerrado);
-		//		   }
-		//System.out.println(((DefaultMutableTreeNode)value)+ " " + String.valueOf((value instanceof Proyecto)));
-		if(value instanceof Empresa || value instanceof Proyecto){
-
-			this.setForeground(Color.GREEN);
 
 		}else{
+			this.setOpaque(false);
+			//this.setBackground(Color.YELLOW);
 			this.setForeground(Color.BLACK);
 		}
-		//this.setForeground(Color.RED);
+		
 		// Y el texto.
 		this.setText(((DefaultMutableTreeNode) value).getUserObject().toString());
-		this.setToolTipText(value.toString());
 		return this;
 
 		//	return null;

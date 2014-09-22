@@ -27,16 +27,20 @@ public class Empresa extends DefaultMutableTreeNode{
 			if(!(new File(ruta+"\\"+this.getUserObject()).exists())){
 				msg=msg+"No existe la empresa en "+ruta+" ";
 				existeEnOrigen = false;
+				errorEnRutas = true;
 			}else{
 				existeEnOrigen = true;
+				errorEnRutas = false;
 				break;
 			}
 		}
 		if(!(new File(ruta_destino+"\\"+this.getUserObject()).exists())){
 			msg=msg+"No existe la empresa en "+ruta_destino+" ";
 			existeEnDestino = false;
+			errorEnRutas = true;
 		}else{
 			existeEnDestino = true;
+			errorEnRutas = errorEnRutas | false;
 		}
 	}
 	public void setRutas_Origen(LinkedList<String> rutas_origen) {
@@ -44,6 +48,18 @@ public class Empresa extends DefaultMutableTreeNode{
 	}
 	public void setRuta_destino(String ruta_destino) {
 		this.ruta_destino = ruta_destino;
+	}
+	public boolean ExisteEnOrigen() {
+		return existeEnOrigen;
+	}
+	public boolean ExisteEnDestino() {
+		return existeEnDestino;
+	}
+	public String getMsg() {
+		return msg;
+	}
+	public boolean isErrorEnRutas() {
+		return errorEnRutas;
 	}
 
 }

@@ -79,6 +79,7 @@ public class Parser {
 			empresa = new Empresa(nombreEmpresa);
 			empresa.setRutas_Origen(rutas_origen);
 			empresa.setRuta_destino(ruta_destino);
+			empresa.findEmpresa();
 			for(int i = 0;i < campos2.length; i++){
 				empresa.addProyecto(campos2[i]);
 			}
@@ -157,8 +158,9 @@ public class Parser {
 		String comentario = "";
 		System.out.println(blank+"blank : " + p.esBlank(blank));
 		System.out.println("comentario : "+p.esComentario(comentario));
-		
-		
+		boolean prueba = true;
+		prueba = prueba | false;
+		System.out.println(prueba);
 		//		String [] campos = linea.split("\\s*:\\s*");
 		//
 		//		if(campos.length !=2){
