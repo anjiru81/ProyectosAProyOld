@@ -117,7 +117,7 @@ public class Parser {
 		String annio = Integer.toString(c.get(Calendar.YEAR));
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Movimiento día "+dia+" / "+mes+" / "+annio);
 		for (int i = 0; i < lineas.length; i++){
-			if(lineas[i].equals("")|this.esComentario(lineas[i])){
+			if(this.esBlank(lineas[i])|this.esComentario(lineas[i])){
 				continue;
 				}else{
 				try {

@@ -26,9 +26,10 @@ public class ProyOldMovTreeCellRenderer extends JLabel implements TreeCellRender
 		
 		
 		if(value instanceof Empresa ){
-			if(((Empresa)value).isErrorEnRutas()){
+			if(!((Empresa)value).isErrorEnRutas()){
 				this.setOpaque(false);
 				this.setForeground(Color.GREEN);
+				this.setToolTipText(((Empresa)value).getMsg());
 			}else{
 				this.setForeground(Color.RED);
 				this.setOpaque(true);

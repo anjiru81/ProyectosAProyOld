@@ -31,6 +31,7 @@ public class Empresa extends DefaultMutableTreeNode{
 			}else{
 				existeEnOrigen = true;
 				errorEnRutas = false;
+				msg=msg+"Empresa en "+ruta+" ";
 				break;
 			}
 		}
@@ -41,6 +42,7 @@ public class Empresa extends DefaultMutableTreeNode{
 		}else{
 			existeEnDestino = true;
 			errorEnRutas = errorEnRutas | false;
+			msg=msg+"La empresa existe en destino";
 		}
 	}
 	public void setRutas_Origen(LinkedList<String> rutas_origen) {
