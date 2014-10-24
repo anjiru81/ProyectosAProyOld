@@ -6,20 +6,18 @@ import java.util.LinkedList;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-public class Empresa extends DefaultMutableTreeNode{
+public class Empresa{
 	//String rutaOrigen;
 	String msg="";
-	String ruta_destino;
-	LinkedList<String> rutas_origen;
+	
 	boolean existeEnOrigen;
 	boolean existeEnDestino;
 	boolean errorEnRutas;
+	public String nombre;
 	public Empresa(String nombre){
-		super(nombre);
+		this.nombre = nombre;
 	}
-	public void addProyecto(String proyecto){
-		this.add(new Proyecto(proyecto));
-	}
+	
 	public void findEmpresa(){
 		Iterator<String> rutas_it = rutas_origen.iterator();
 		while(rutas_it.hasNext()){
@@ -63,5 +61,7 @@ public class Empresa extends DefaultMutableTreeNode{
 	public boolean isErrorEnRutas() {
 		return errorEnRutas;
 	}
-
+	public String toString(){
+		return this.nombre;
+	}
 }

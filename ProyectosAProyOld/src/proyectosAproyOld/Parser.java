@@ -130,9 +130,6 @@ public class Parser {
 			}
 		}
 		
-		
-		
-		
 		return root;
 	}
 	public void lookForInFolder(String folder){
