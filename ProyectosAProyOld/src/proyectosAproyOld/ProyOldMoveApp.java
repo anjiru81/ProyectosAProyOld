@@ -31,6 +31,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellEditor;
+import javax.swing.tree.TreePath;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -58,12 +59,14 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 	private Parser p;
 	private SimpleAttributeSet GreenAttr; 
 	private SimpleAttributeSet BlackAttr;
-	private JTextPane consola;
+	private static JTextPane consola;
 	private SimpleAttributeSet ConsolaAttr;
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	//private UnidadRed ur;
+	private EjecucionRuntime runtime;
+	private static CheckTreeManager checkTreeManager;
 
 	/**
 	 * Launch the application.
@@ -133,6 +136,17 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		btnGenerar.addActionListener(this);
 		btnGenerar.setEnabled(false);
 		panel_botones.add(btnGenerar);
+		
+		JButton btnObtenerPath = new JButton("Obtener path");
+		btnObtenerPath.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TreePath checkedPaths[] = checkTreeManager.getSelectionModel().getSelectionPaths(); 
+			for(int i=0;i<checkedPaths.length;i++){
+				ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+checkedPaths[i].toString()+"\n");
+			}
+			}
+		});
+		panel_botones.add(btnObtenerPath);
 
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.SOUTH);
@@ -146,7 +160,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		consola = new JTextPane();
 		consola.setMinimumSize(new Dimension(600, 50));
 		scrollPane_1.setViewportView(consola);
-
+		
 		JPanel panel_arbol = new JPanel();
 		frame.getContentPane().add(panel_arbol, BorderLayout.EAST);
 		panel_arbol.setLayout(new BorderLayout(0, 0));
@@ -191,7 +205,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		passwordField.setColumns(10);
 		panel_accesos.add(passwordField);
 		passwordField.setEnabled(false);
-
+		runtime = new EjecucionRuntime(consola);
 
 	}
 
@@ -200,6 +214,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		//	this. revisarSintaxis();
 		if(e.getActionCommand().equals("Generar")){
 			this.insertarArbol();
+		//	runtime.CommandExec("explorer \\\\nasr1\\proyectos");
 		}else if(e.getActionCommand().equals("Local")){
 			this.passwordField.setEnabled(false);
 			this.textField.setEnabled(false);
@@ -255,6 +270,8 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 			ToolTipManager.sharedInstance().registerComponent(tree);
 			tree.setEditable(true);
 			tree.setCellRenderer(new ProyOldMovTreeCellRenderer());
+		//	tree.setCellRenderer(new CheckTreeCellRenderer(tree.getCellRenderer(), selectionModel)); 
+			 checkTreeManager = new CheckTreeManager(tree); 
 			//	DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
 			TreeUtils.expandAll(tree, true);
 

@@ -22,7 +22,7 @@ public class Parser {
 	    InputStream entrada = null;
 	    rutas_origen = new LinkedList<String>();
 	    try {
-	        entrada = this.getClass().getResourceAsStream("configuracion.properties");
+	        entrada = this.getClass().getResourceAsStream("configuration.properties");
 	        // cargamos el archivo de propiedades
 	        propiedades.load(entrada);
 	        // obtenemos las propiedades y las imprimimos
