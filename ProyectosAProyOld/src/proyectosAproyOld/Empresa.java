@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-public class Empresa{
+public class Empresa extends DefaultMutableTreeNode{
 	//String rutaOrigen;
 	String msg="";
 	
@@ -14,6 +14,10 @@ public class Empresa{
 	boolean existeEnDestino;
 	boolean errorEnRutas;
 	public String nombre;
+
+	private String ruta_destino;
+
+	private LinkedList<String> rutas_origen;
 	public Empresa(String nombre){
 		this.nombre = nombre;
 	}
@@ -63,5 +67,11 @@ public class Empresa{
 	}
 	public String toString(){
 		return this.nombre;
+	}
+
+	public void addProyecto(String nombre) {
+		Proyecto p =new Proyecto(nombre);
+		this.add(p);
+		
 	}
 }
