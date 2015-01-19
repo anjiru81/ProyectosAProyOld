@@ -79,7 +79,7 @@ public class Parser {
 			empresa = new Empresa(nombreEmpresa);
 			empresa.setRutas_Origen(rutas_origen);
 			empresa.setRuta_destino(ruta_destino);
-			empresa.findEmpresa();
+			empresa.find();
 			for(int i = 0;i < campos2.length; i++){
 				empresa.addProyecto(campos2[i]);
 			}

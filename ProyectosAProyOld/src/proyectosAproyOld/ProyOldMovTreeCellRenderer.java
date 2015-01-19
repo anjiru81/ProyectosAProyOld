@@ -30,6 +30,11 @@ public class ProyOldMovTreeCellRenderer extends JLabel implements TreeCellRender
 				this.setOpaque(false);
 				this.setForeground(Color.GREEN);
 				this.setToolTipText(((Empresa)value).getMsg());
+			}else if(value instanceof Proyecto && !((Proyecto)value).ExisteEnOrigen() && ((Proyecto)value).ExisteEnDestino()){
+				this.setForeground(Color.MAGENTA);
+				this.setOpaque(true);
+				this.setBackground(Color.lightGray);
+				this.setToolTipText(((Empresa)value).getMsg());
 			}else{
 				this.setForeground(Color.RED);
 				this.setOpaque(true);
