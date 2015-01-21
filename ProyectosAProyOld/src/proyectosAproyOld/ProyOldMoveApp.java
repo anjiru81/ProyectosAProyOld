@@ -142,7 +142,21 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 			public void actionPerformed(ActionEvent arg0) {
 				TreePath checkedPaths[] = checkTreeManager.getSelectionModel().getSelectionPaths(); 
 			for(int i=0;i<checkedPaths.length;i++){
-				ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+checkedPaths[i].toString()+"\n");
+				Object [] objs = checkedPaths[i].getPath();
+				DefaultMutableTreeNode selectedNode = ((DefaultMutableTreeNode)checkedPaths[i].getLastPathComponent());			   
+					 if(selectedNode instanceof Proyecto){
+						 System.out.println("Es proyecto "+selectedNode);
+						// selectedNode.
+					 }else if (selectedNode instanceof Empresa){
+						 System.out.println("Es empresa "+selectedNode);
+					 }else{
+						 System.out.println("Es root "+selectedNode);
+					 }
+				//for(int j=0;j<objs.length;j++){
+					//System.out.println(objs[j].toString());
+					ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+"Path: "+checkedPaths[i].toString()+"\n");
+				//	}
+				//ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+checkedPaths[i].toString()+"\n");
 			}
 			}
 		});

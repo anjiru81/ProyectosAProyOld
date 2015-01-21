@@ -13,6 +13,8 @@ public class Empresa extends DefaultMutableTreeNode{
 	boolean existeEnOrigen;
 	boolean existeEnDestino;
 	boolean errorEnRutas;
+	private String rutaOrigen;
+	private String rutaDestino;
 	//public String nombre;
 
 	private String ruta_destino;
@@ -34,6 +36,7 @@ public class Empresa extends DefaultMutableTreeNode{
 				existeEnOrigen = true;
 				errorEnRutas = false;
 				msg=msg+"Existe en "+ruta+"; ";
+				this.rutaOrigen = ruta+"\\"+this.getRuta();
 				break;
 			}
 		}
@@ -45,6 +48,7 @@ public class Empresa extends DefaultMutableTreeNode{
 			existeEnDestino = true;
 			errorEnRutas = errorEnRutas | false;
 			msg=msg+"Existe en destino";
+			this.rutaDestino = ruta_destino+"\\"+this.getRuta();
 		}
 	}
 	public void setRutas_Origen(LinkedList<String> rutas_origen) {
@@ -69,7 +73,9 @@ public class Empresa extends DefaultMutableTreeNode{
 		
 		return (String)this.getUserObject();
 	}
-
+	public void move(){
+		//System.out.println("Se ha movido");
+	}
 	public void addProyecto(String nombre) {
 		Proyecto p =new Proyecto(nombre, (String)this.getUserObject());
 		p.setRutas_Origen(rutas_origen);

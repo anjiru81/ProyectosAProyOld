@@ -30,7 +30,7 @@ public class CheckTreeCellRenderer extends JPanel implements TreeCellRenderer{
             if(selectionModel.isPathSelected(path, true)) 
                 checkBox.setState(TristateCheckBox.SELECTED); 
             else 
-                checkBox.setState(selectionModel.isPartiallySelected(path) ? null : TristateCheckBox.NOT_SELECTED); 
+                checkBox.setState(selectionModel.isPartiallySelected(path) ? TristateCheckBox.DONT_CARE : TristateCheckBox.NOT_SELECTED); 
         } 
         removeAll(); 
         add(checkBox, BorderLayout.WEST); 
