@@ -1,29 +1,29 @@
 package proyectosAproyOld;
 
 import java.io.File;
+import java.util.AbstractSequentialList;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-public class Empresa extends DefaultMutableTreeNode{
+public class Empresa extends ProyOldMutableTreeNode{
 	//String rutaOrigen;
 	String msg="";
-	
+
 	boolean existeEnOrigen;
 	boolean existeEnDestino;
 	boolean errorEnRutas;
-	private String rutaOrigen;
-	private String rutaDestino;
-	//public String nombre;
+	protected String rutaOrigen;
+	protected String rutaDestino;
+	protected String ruta_destino;
 
-	private String ruta_destino;
-
-	private LinkedList<String> rutas_origen;
-	public Empresa(String nombre){
+	protected LinkedList<String> rutas_origen;
+	protected Empresa(String nombre){
 		super(nombre);
 	}
-	
+
 	public void find(){
 		Iterator<String> rutas_it = rutas_origen.iterator();
 		while(rutas_it.hasNext()){
@@ -70,18 +70,21 @@ public class Empresa extends DefaultMutableTreeNode{
 		return errorEnRutas;
 	}
 	public String getRuta(){
-		
+
 		return (String)this.getUserObject();
 	}
 	public void move(){
-		//System.out.println("Se ha movido");
+		Enumeration e = this.children();
+		while(e.hasMoreElements()){
+			((Proyecto)e.nextElement()).move();
+		}
+
 	}
 	public void addProyecto(String nombre) {
 		Proyecto p =new Proyecto(nombre, (String)this.getUserObject());
 		p.setRutas_Origen(rutas_origen);
 		p.setRuta_destino(ruta_destino);
-		p.find();
 		this.add(p);
-		
+		p.find();
 	}
 }

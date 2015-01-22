@@ -19,6 +19,8 @@ public class CheckTreeCellRenderer extends JPanel implements TreeCellRenderer{
         setLayout(new BorderLayout()); 
         setOpaque(false); 
         checkBox.setOpaque(false); 
+      //  checkBox.setEnabled(false);
+        checkBox.setState(TristateCheckBox.NOT_SELECTED); 
     } 
  
  
@@ -35,6 +37,14 @@ public class CheckTreeCellRenderer extends JPanel implements TreeCellRenderer{
         removeAll(); 
         add(checkBox, BorderLayout.WEST); 
         add(renderer, BorderLayout.CENTER); 
+        if(value instanceof Empresa){
+        	this.setToolTipText(((Empresa)value).getMsg());
+        }
+        if(((ProyOldMutableTreeNode)value).isEnabled()){
+        checkBox.setEnabled(true);
+        }else{
+        	 checkBox.setEnabled(false);
+        }
         return this; 
     } 
 } 

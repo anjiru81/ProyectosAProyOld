@@ -31,6 +31,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellEditor;
+import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 
 import java.awt.event.ActionListener;
@@ -136,28 +137,21 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		btnGenerar.addActionListener(this);
 		btnGenerar.setEnabled(false);
 		panel_botones.add(btnGenerar);
-		
+
 		JButton btnObtenerPath = new JButton("Obtener path");
 		btnObtenerPath.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				TreePath checkedPaths[] = checkTreeManager.getSelectionModel().getSelectionPaths(); 
-			for(int i=0;i<checkedPaths.length;i++){
-				Object [] objs = checkedPaths[i].getPath();
-				DefaultMutableTreeNode selectedNode = ((DefaultMutableTreeNode)checkedPaths[i].getLastPathComponent());			   
-					 if(selectedNode instanceof Proyecto){
-						 System.out.println("Es proyecto "+selectedNode);
-						// selectedNode.
-					 }else if (selectedNode instanceof Empresa){
-						 System.out.println("Es empresa "+selectedNode);
-					 }else{
-						 System.out.println("Es root "+selectedNode);
-					 }
-				//for(int j=0;j<objs.length;j++){
+				for(int i=0;i<checkedPaths.length;i++){
+					Object [] objs = checkedPaths[i].getPath();
+					ProyOldMutableTreeNode selectedNode = ((ProyOldMutableTreeNode)checkedPaths[i].getLastPathComponent());			   
+					selectedNode.move();
+					//for(int j=0;j<objs.length;j++){
 					//System.out.println(objs[j].toString());
 					ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+"Path: "+checkedPaths[i].toString()+"\n");
-				//	}
-				//ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+checkedPaths[i].toString()+"\n");
-			}
+					//	}
+					//ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+checkedPaths[i].toString()+"\n");
+				}
 			}
 		});
 		panel_botones.add(btnObtenerPath);
@@ -174,7 +168,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		consola = new JTextPane();
 		consola.setMinimumSize(new Dimension(600, 50));
 		scrollPane_1.setViewportView(consola);
-		
+
 		JPanel panel_arbol = new JPanel();
 		frame.getContentPane().add(panel_arbol, BorderLayout.EAST);
 		panel_arbol.setLayout(new BorderLayout(0, 0));
@@ -228,7 +222,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		//	this. revisarSintaxis();
 		if(e.getActionCommand().equals("Generar")){
 			this.insertarArbol();
-		//	runtime.CommandExec("explorer \\\\nasr1\\proyectos");
+			//	runtime.CommandExec("explorer \\\\nasr1\\proyectos");
 		}else if(e.getActionCommand().equals("Local")){
 			this.passwordField.setEnabled(false);
 			this.textField.setEnabled(false);
@@ -282,10 +276,11 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		try {
 			tree = new JTree(p.generarArbolEmpresas(p.getTextLines(this.editorPane.getDocument().getText(0,this.editorPane.getDocument().getLength()))));
 			ToolTipManager.sharedInstance().registerComponent(tree);
-			tree.setEditable(true);
+		//	tree.setEditable(true);
 			tree.setCellRenderer(new ProyOldMovTreeCellRenderer());
-		//	tree.setCellRenderer(new CheckTreeCellRenderer(tree.getCellRenderer(), selectionModel)); 
-			 checkTreeManager = new CheckTreeManager(tree); 
+		
+			//	tree.setCellRenderer(new CheckTreeCellRenderer(tree.getCellRenderer(), selectionModel)); 
+			checkTreeManager = new CheckTreeManager(tree); 
 			//	DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
 			TreeUtils.expandAll(tree, true);
 

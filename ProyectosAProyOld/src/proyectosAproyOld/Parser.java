@@ -115,7 +115,7 @@ public class Parser {
 		String dia = Integer.toString(c.get(Calendar.DATE));
 		String mes = Integer.toString(c.get(Calendar.MONTH) + 1);
 		String annio = Integer.toString(c.get(Calendar.YEAR));
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Movimiento día "+dia+" / "+mes+" / "+annio);
+		ProyOldMutableTreeNode root = new ProyOldMutableTreeNode("Movimiento día "+dia+" / "+mes+" / "+annio);
 		for (int i = 0; i < lineas.length; i++){
 			if(this.esBlank(lineas[i])|this.esComentario(lineas[i])){
 				continue;
