@@ -80,11 +80,21 @@ public class Empresa extends ProyOldMutableTreeNode{
 		}
 
 	}
+
 	public void addProyecto(String nombre) {
 		Proyecto p =new Proyecto(nombre, (String)this.getUserObject());
 		p.setRutas_Origen(rutas_origen);
 		p.setRuta_destino(ruta_destino);
 		this.add(p);
 		p.find();
+	}
+
+	public void checkIfProjectMoved() {
+		boolean allDisabled = true;
+		Enumeration e = this.children();
+		while(e.hasMoreElements()){
+			allDisabled = allDisabled & !((Proyecto)e.nextElement()).isEnabled();
+		}
+		this.setEnabled(!allDisabled);
 	}
 }

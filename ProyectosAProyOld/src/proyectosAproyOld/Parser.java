@@ -83,6 +83,7 @@ public class Parser {
 			for(int i = 0;i < campos2.length; i++){
 				empresa.addProyecto(campos2[i]);
 			}
+			empresa.checkIfProjectMoved();
 		}
 		
 		return empresa;

@@ -28,18 +28,21 @@ public class CheckTreeManager extends MouseAdapter implements TreeSelectionListe
             return; 
         if(me.getX()>tree.getPathBounds(path).x+hotspot) 
             return; 
- 
+        ProyOldMutableTreeNode node = (ProyOldMutableTreeNode)path.getLastPathComponent();
+        if(!node.isEnabled())
+        	return;
         boolean selected = selectionModel.isPathSelected(path, true); 
         selectionModel.removeTreeSelectionListener(this); 
- 
+		System.out.println(path);
+		System.out.println(selected);
         try{ 
             if(selected) 
-                selectionModel.removeSelectionPath(path); 
-            else 
-                selectionModel.addSelectionPath(path); 
-        } finally{ 
-            selectionModel.addTreeSelectionListener(this); 
-            tree.treeDidChange(); 
+                selectionModel.removeSelectionPath(path);
+            else
+                selectionModel.addSelectionPath(path);
+        } finally{
+            selectionModel.addTreeSelectionListener(this);
+            tree.treeDidChange();
         } 
     } 
  
