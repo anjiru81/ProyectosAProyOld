@@ -33,7 +33,7 @@ public class CheckTreeManager extends MouseAdapter implements TreeSelectionListe
         	return;
         boolean selected = selectionModel.isPathSelected(path, true); 
         selectionModel.removeTreeSelectionListener(this); 
-		System.out.println(path);
+		System.out.println(path +" "+(path.getLastPathComponent().getClass()).toString().equals("class proyectosAproyOld.Empresa"));
 		System.out.println(selected);
         try{ 
             if(selected) 

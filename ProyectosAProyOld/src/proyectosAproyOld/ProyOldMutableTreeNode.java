@@ -37,4 +37,9 @@ public class ProyOldMutableTreeNode extends DefaultMutableTreeNode {
 	public boolean isEnabled(){
 		return this.enabled;
 	}
+
+	public String[] getAllAvailablePaths() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
