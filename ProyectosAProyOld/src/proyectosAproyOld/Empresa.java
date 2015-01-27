@@ -5,6 +5,7 @@ import java.util.AbstractSequentialList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Vector;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -76,7 +77,10 @@ public class Empresa extends ProyOldMutableTreeNode{
 	public void move(){
 		Enumeration e = this.children();
 		while(e.hasMoreElements()){
-			((Proyecto)e.nextElement()).move();
+			Proyecto node = (Proyecto)e.nextElement();
+			if(node.isEnabled()){
+				node.move();
+			}
 		}
 
 	}
@@ -97,4 +101,20 @@ public class Empresa extends ProyOldMutableTreeNode{
 		}
 		this.setEnabled(!allDisabled);
 	}
+
+	public Vector<String> getAllAvailablePaths() {
+		Vector<String> availablePaths = new Vector<String>();
+		Enumeration e = this.children();
+
+		while(e.hasMoreElements()){
+			ProyOldMutableTreeNode node = (ProyOldMutableTreeNode)e.nextElement();
+			if(node.isEnabled()){
+				//System.out.println(node.getUserObject());
+				availablePaths.addAll(node.getAllAvailablePaths());
+			}
+
+		}
+		return availablePaths;
+	}
+
 }

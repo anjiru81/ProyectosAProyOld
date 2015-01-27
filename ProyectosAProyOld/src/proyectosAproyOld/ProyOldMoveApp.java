@@ -41,6 +41,8 @@ import java.awt.Font;
 import javax.swing.JTextPane;
 
 import java.awt.Dimension;
+import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
@@ -141,6 +143,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		JButton btnObtenerPath = new JButton("Obtener path");
 		btnObtenerPath.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Vector<String> availablePaths = checkTreeManager.getSelectionModel().getFullSelectedPaths();
 				TreePath checkedPaths[] = checkTreeManager.getSelectionModel().getSelectionPaths(); 
 				for(int i=0;i<checkedPaths.length;i++){
 					Object [] objs = checkedPaths[i].getPath();
@@ -151,6 +154,11 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 					ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+"Path: "+checkedPaths[i].toString()+"\n");
 					//	}
 					//ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+checkedPaths[i].toString()+"\n");
+				}
+				//System.out.println("availablePaths.size()" + availablePaths.size());
+				Iterator<String> it = availablePaths.iterator();
+				while(it.hasNext()){
+					ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+it.next()+"\n");
 				}
 			}
 		});
@@ -344,6 +352,14 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 			//e1.printStackTrace();
 			consola.setText(consola.getText()+"\n"+e1.getMessage());
 		}
+	}
+
+	public static JTextPane getConsola() {
+		// TODO Auto-generated method stub
+		return consola;
+	}
+	public static void writeInConsola(String line){
+		consola.setText(consola.getText()+line+"\n");
 	}
 
 }

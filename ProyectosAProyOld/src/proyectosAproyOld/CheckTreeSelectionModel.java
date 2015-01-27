@@ -3,6 +3,7 @@ package proyectosAproyOld;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Stack;
+import java.util.Vector;
 
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreeModel;
@@ -26,31 +27,33 @@ public class CheckTreeSelectionModel extends DefaultTreeSelectionModel{
 		//for(int j = 0; j<selectionPaths.length; j++){ 
 		//	System.out.println(selectionPaths.length + " "+selectionPaths[j]);
 		//} 
-		
+
 		if(selectionPaths==null) {
 			//System.out.println("selectionPaths = null");
 			return false; 
 		}
-		System.out.println("selectionPaths.length "+selectionPaths.length);
+		//System.out.println("selectionPaths.length "+selectionPaths.length);
 		for(int j = 0; j<selectionPaths.length; j++){ 
 			if(isDescendant(selectionPaths[j], path)) 
 				return true; 
 		} 
 		return false; 
 	} 
-	
-public TreePath[] getFullSelectedPaths(){
-	TreePath[] seleccion = this.getSelectionPaths();
-	for(int i = 0;i < seleccion.length;i++){
-		if((seleccion[i].getLastPathComponent().getClass()).equals("class proyectosAproyOld.ProyOldMutableTreeNode")){
-			((ProyOldMutableTreeNode)seleccion[i].getLastPathComponent()).getAllAvailablePaths();
-		}else{
-			
+
+	public Vector<String> getFullSelectedPaths(){
+		Vector<String> availablePaths = new Vector<String>();
+		TreePath[] seleccion = this.getSelectionPaths();
+		for(int i = 0;i < seleccion.length;i++){
+			//if((seleccion[i].getLastPathComponent().getClass()).equals("class proyectosAproyOld.ProyOldMutableTreeNode")){
+				availablePaths.addAll(((ProyOldMutableTreeNode)seleccion[i].getLastPathComponent()).getAllAvailablePaths());
+			//}else{
+
+			//}
+
 		}
-		
+		return availablePaths;
 	}
-	return null;
-}
+	
 	// tells whether given path is selected. 
 	// if dig is true, then a path is assumed to be selected, if 
 	// one of its ancestor is selected. 
@@ -59,60 +62,27 @@ public TreePath[] getFullSelectedPaths(){
 			return super.isPathSelected(path); 
 
 		ProyOldMutableTreeNode last = (ProyOldMutableTreeNode) path.getLastPathComponent();
-		/*
-		if((last.getClass().toString()).equals("class proyectosAproyOld.Empresa")){
-			boolean allDisabled = true;
-			Enumeration e = last.children();
-			while(e.hasMoreElements()){
-				allDisabled = allDisabled & !((Proyecto)e.nextElement()).isEnabled();
-			}
-			if(allDisabled){
-				return false;
-			}else{
-				return true;
-			}
-		}else if((last.getClass().toString()).equals("class proyectosAproyOld.Proyecto")){
-
-			if(last.isEnabled()){
-				return true;
-			}else{
-				return false;
-			}
 
 
-		}
-		 */
-System.out.println("Entro en isPathSelected con "+path);
 		while(path!=null && !super.isPathSelected(path) ) 
 			path = path.getParentPath();
-		
-	//System.out.println("Salgo con "+((path!=null))+" "+path);
-	//return (path!=null);	
-	System.out.println("Salgo con "+((path!=null) & last.isEnabled())+" "+path);
-	return (path!=null) & last.isEnabled(); 
+
+
+		return (path!=null) & last.isEnabled(); 
 	} 
 
 	// is path1 descendant of path2 
 	private boolean isDescendant(TreePath path1, TreePath path2){ 
 		Object obj1[] = path1.getPath(); 
 		Object obj2[] = path2.getPath();
-		System.out.println("obj1 " + obj1.length);
-		for(int a = 0; a<obj1.length;a++){
-			System.out.print(obj1[a]+"+");
-		}
-		System.out.println("");
-		System.out.println("obj2 " + obj2.length);
-		for(int a = 0; a<obj2.length;a++){
-			System.out.print(obj2[a]+"+");
-		}
-		System.out.println("");
+
 		for(int i = 0; i<obj2.length; i++){ 
 			if(((ProyOldMutableTreeNode)obj2[obj2.length-1]).isEnabled()){
 				if(obj1[i]!=obj2[i]) {
 					return false; 
 				}
 			}else{
-				System.out.println("No hago descent en " + obj2[i]);
+				//System.out.println("No hago descent en " + obj2[i]);
 				return false;
 			}
 		} 

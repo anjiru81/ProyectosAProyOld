@@ -1,6 +1,7 @@
 package proyectosAproyOld;
 
 import java.util.Enumeration;
+import java.util.Vector;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -27,10 +28,13 @@ public class ProyOldMutableTreeNode extends DefaultMutableTreeNode {
 	public void move(){
 		Enumeration e = this.children();
 		while(e.hasMoreElements()){
-			((ProyOldMutableTreeNode)e.nextElement()).move();
+			Empresa node = (Empresa)e.nextElement();
+			if(node.isEnabled()){
+				node.move();
+			}
 		}
 	}
-	
+
 	public void setEnabled(boolean enable){
 		this.enabled = enable;
 	}
@@ -38,8 +42,17 @@ public class ProyOldMutableTreeNode extends DefaultMutableTreeNode {
 		return this.enabled;
 	}
 
-	public String[] getAllAvailablePaths() {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<String> getAllAvailablePaths() {
+		Vector<String> availablePaths = new Vector<String>();
+		Enumeration e = this.children();
+		while(e.hasMoreElements()){
+			ProyOldMutableTreeNode node = (ProyOldMutableTreeNode)e.nextElement();
+			if(node.isEnabled()){
+				//availablePaths.add(((Proyecto)e.nextElement()).rutaOrigen+"\\"+((Proyecto)e.nextElement()).getRuta());
+				availablePaths.addAll(((Empresa)node).getAllAvailablePaths());
+			}
+		}
+		return availablePaths;
 	}
+
 }

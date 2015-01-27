@@ -1,7 +1,9 @@
 package proyectosAproyOld;
 
 import java.io.File;
+import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Vector;
 
 public class Proyecto extends Empresa {
 
@@ -45,11 +47,23 @@ public class Proyecto extends Empresa {
 		}
 	}
 	public void move(){
-		System.out.println("Se ha movido de: "+this.rutaOrigen+" a "+this.rutaDestino);
+	 
+		String command = "robocopy.exe " +this.rutaOrigen +" "+this.rutaDestino +" /MOVE /MIR /XX /XC /XN /XO";
+		ProyOldMoveApp.writeInConsola(command);
+		//System.out.println(command);
+		//EjecucionRuntime exec = new EjecucionRuntime(ProyOldMoveApp.getConsola());
+		//exec.CommandExec(command);
 	}
 
 	public String getRuta(){
 
 		return empresa+"\\"+(String)this.getUserObject();
+	}
+	public Vector<String> getAllAvailablePaths() {
+		Vector<String> availablePaths = new Vector<String>();
+		if(this.isEnabled()){
+			availablePaths.add(this.rutaOrigen);
+		}
+		return availablePaths;
 	}
 }

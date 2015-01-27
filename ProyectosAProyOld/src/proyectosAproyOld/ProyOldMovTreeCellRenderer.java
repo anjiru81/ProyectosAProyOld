@@ -27,19 +27,26 @@ public class ProyOldMovTreeCellRenderer extends JLabel implements TreeCellRender
 		
 		if(value instanceof Empresa ){
 			if(!((Empresa)value).isErrorEnRutas()){
-				this.setOpaque(false);
-				this.setForeground(Color.GREEN);
-				this.setToolTipText(((Empresa)value).getMsg());
+				this.setOpaque(true);
+				this.setForeground(Color.BLACK);
+				this.setBackground(new Color(0,238,118));
+				//this.setToolTipText(((Empresa)value).getMsg());
 			}else if(value instanceof Proyecto && !((Proyecto)value).ExisteEnOrigen() && ((Proyecto)value).ExisteEnDestino()){
 				this.setForeground(Color.MAGENTA);
 				this.setOpaque(true);
 				this.setBackground(Color.lightGray);
-				this.setToolTipText(((Empresa)value).getMsg());
+				//this.setToolTipText(((Empresa)value).getMsg());
+			}
+			else if(value instanceof Proyecto && ((Proyecto)value).ExisteEnOrigen() && !((Proyecto)value).ExisteEnDestino()){
+				this.setForeground(Color.BLACK);
+				this.setOpaque(true);
+				this.setBackground(new Color(0,238,118));
+				//this.setToolTipText(((Empresa)value).getMsg());
 			}else{
 				this.setForeground(Color.RED);
 				this.setOpaque(true);
 				this.setBackground(Color.YELLOW);
-				this.setToolTipText(((Empresa)value).getMsg());
+				//this.setToolTipText(((Empresa)value).getMsg());
 			}
 
 
