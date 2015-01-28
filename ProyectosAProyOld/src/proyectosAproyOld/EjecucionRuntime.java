@@ -6,11 +6,11 @@ import javax.swing.JTextPane;
 
 public class EjecucionRuntime {
     
-    private JTextPane consola;
+   // private JTextPane consola;
 	/** Creates a new instance of PruebaRuntime */
-    public EjecucionRuntime(JTextPane consola) 
+    public EjecucionRuntime() 
     {
-       this.consola = consola;
+     //  this.consola = consola;
     }
     public void CommandExec(String command){
     	 try
@@ -20,22 +20,36 @@ public class EjecucionRuntime {
              
              // Se obtiene el stream de salida del programa
              InputStream is = p.getInputStream();
+             InputStream es = p.getErrorStream();
              
              /* Se prepara un bufferedReader para poder leer la salida más comodamente. */
              BufferedReader br = new BufferedReader (new InputStreamReader (is));
+             BufferedReader brerror = new BufferedReader (new InputStreamReader (es));
              
              // Se lee la primera linea
              String aux = br.readLine();
+             String aux_error = brerror.readLine();
              
              // Mientras se haya leido alguna linea
              while (aux!=null)
              {
                  // Se escribe la linea en pantalla
-                 System.out.println (aux);
-                 consola.setText(consola.getText()+aux+"\n");
+                // System.out.println (aux);
+            	 ProyOldMoveApp.writeInConsola(aux);
+                // consola.setText(consola.getText()+aux+"\n");
                  
                  // y se lee la siguiente.
                  aux = br.readLine();
+             }
+             while (aux_error!=null)
+             {
+                 // Se escribe la linea en pantalla
+                // System.out.println (aux);
+            	 ProyOldMoveApp.writeInConsola(aux_error);
+                // consola.setText(consola.getText()+aux+"\n");
+                 
+                 // y se lee la siguiente.
+            	 aux_error = brerror.readLine();
              }
          } 
          catch (Exception e)

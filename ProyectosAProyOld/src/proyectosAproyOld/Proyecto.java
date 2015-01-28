@@ -36,7 +36,7 @@ public class Proyecto extends Empresa {
 			existeEnDestino = false;
 			errorEnRutas = true;
 			if(((Empresa)this.getParent()).ExisteEnOrigen()){
-				this.rutaDestino = ruta_destino+"\\"+empresa;
+				this.rutaDestino = ruta_destino+"\\"+this.getRuta();
 			}
 		}else{
 			existeEnDestino = true;
@@ -47,14 +47,17 @@ public class Proyecto extends Empresa {
 		}
 	}
 	public void move(){
-	 
-		String command = "robocopy.exe " +this.rutaOrigen +" "+this.rutaDestino +" /MOVE /MIR /XX /XC /XN /XO";
-		ProyOldMoveApp.writeInConsola(command);
-		//System.out.println(command);
-		//EjecucionRuntime exec = new EjecucionRuntime(ProyOldMoveApp.getConsola());
-		//exec.CommandExec(command);
+		if(!this.ExisteEnDestino() & this.ExisteEnOrigen()){
+			String command = "robocopy.exe " +this.rutaOrigen +" "+this.rutaDestino +" /MOVE /MIR /XX /XC /XN /XO";
+			ProyOldMoveApp.writeInConsola(command);
+			//System.out.println(command);
+			EjecucionRuntime exec = new EjecucionRuntime();
+			exec.CommandExec(command);
+			this.find();
+		}else{
+			ProyOldMoveApp.writeInConsola("No se ha movido el proyecto "+this.getRuta());
+		}
 	}
-
 	public String getRuta(){
 
 		return empresa+"\\"+(String)this.getUserObject();

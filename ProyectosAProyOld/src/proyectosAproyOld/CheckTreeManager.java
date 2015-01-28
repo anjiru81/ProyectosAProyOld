@@ -53,4 +53,7 @@ public class CheckTreeManager extends MouseAdapter implements TreeSelectionListe
     public void valueChanged(TreeSelectionEvent e){ 
         tree.treeDidChange(); 
     } 
+    public void forceValueChanged(){ 
+        tree.treeDidChange(); 
+    } 
 }

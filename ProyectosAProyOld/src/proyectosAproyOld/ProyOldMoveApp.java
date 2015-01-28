@@ -149,17 +149,20 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 					Object [] objs = checkedPaths[i].getPath();
 					ProyOldMutableTreeNode selectedNode = ((ProyOldMutableTreeNode)checkedPaths[i].getLastPathComponent());			   
 					selectedNode.move();
+					checkTreeManager.forceValueChanged();
 					//for(int j=0;j<objs.length;j++){
 					//System.out.println(objs[j].toString());
-					ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+"Path: "+checkedPaths[i].toString()+"\n");
+				//	ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+"Path: "+checkedPaths[i].toString()+"\n");
+				//	ProyOldMoveApp.writeInConsola("Path: "+checkedPaths[i].toString());
 					//	}
 					//ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+checkedPaths[i].toString()+"\n");
 				}
 				//System.out.println("availablePaths.size()" + availablePaths.size());
-				Iterator<String> it = availablePaths.iterator();
-				while(it.hasNext()){
-					ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+it.next()+"\n");
-				}
+			//	Iterator<String> it = availablePaths.iterator();
+				//while(it.hasNext()){
+				//	ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+it.next()+"\n");
+				//	ProyOldMoveApp.writeInConsola(it.next());
+				//}
 			}
 		});
 		panel_botones.add(btnObtenerPath);
@@ -221,7 +224,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		passwordField.setColumns(10);
 		panel_accesos.add(passwordField);
 		passwordField.setEnabled(false);
-		runtime = new EjecucionRuntime(consola);
+	//	runtime = new EjecucionRuntime(consola);
 
 	}
 

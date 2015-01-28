@@ -26,18 +26,21 @@ public class ProyOldMovTreeCellRenderer extends JLabel implements TreeCellRender
 		
 		
 		if(value instanceof Empresa ){
+			//Si la empresa esta tanto en origen como en destino
 			if(!((Empresa)value).isErrorEnRutas()){
 				this.setOpaque(true);
 				this.setForeground(Color.BLACK);
 				this.setBackground(new Color(0,238,118));
 				//this.setToolTipText(((Empresa)value).getMsg());
+			//Si el proyecto no esta en origen pero si en destino, es decir que se emovio antes	
 			}else if(value instanceof Proyecto && !((Proyecto)value).ExisteEnOrigen() && ((Proyecto)value).ExisteEnDestino()){
 				this.setForeground(Color.MAGENTA);
 				this.setOpaque(true);
 				this.setBackground(Color.lightGray);
 				//this.setToolTipText(((Empresa)value).getMsg());
 			}
-			else if(value instanceof Proyecto && ((Proyecto)value).ExisteEnOrigen() && !((Proyecto)value).ExisteEnDestino()){
+			//Si el proyecto existe en origen pero no en destino, pero la empresa si que existe en destino (es decir que se puede mover el proyecto pero aun no se hizo
+			else if(value instanceof Proyecto && ((Proyecto)value).ExisteEnOrigen() && !((Proyecto)value).ExisteEnDestino() && ((Empresa)((Proyecto)value).getParent()).existeEnDestino){
 				this.setForeground(Color.BLACK);
 				this.setOpaque(true);
 				this.setBackground(new Color(0,238,118));
