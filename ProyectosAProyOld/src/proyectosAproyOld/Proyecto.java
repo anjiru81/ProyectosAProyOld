@@ -48,7 +48,8 @@ public class Proyecto extends Empresa {
 	}
 	public void move(){
 		if(!this.ExisteEnDestino() & this.ExisteEnOrigen()){
-			String command = "robocopy.exe " +this.rutaOrigen +" "+this.rutaDestino +" /MOVE /MIR /XX /XC /XN /XO";
+			//String command = "robocopy.exe " +this.rutaOrigen +" "+this.rutaDestino +" /MOVE /MIR /XX /XC /XN /XO";
+			String command = "dir";
 			ProyOldMoveApp.writeInConsola(command);
 			//System.out.println(command);
 			EjecucionRuntime exec = new EjecucionRuntime();

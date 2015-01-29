@@ -51,6 +51,7 @@ import javax.swing.JPasswordField;
 import javax.swing.ButtonGroup;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.JSplitPane;
 
 public class ProyOldMoveApp implements ActionListener, DocumentListener{
 
@@ -80,7 +81,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 			public void run() {
 				try {
 					for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-						if ("Windows".equals(info.getName())) {
+						if ("Nimbus".equals(info.getName())) {
 							UIManager.setLookAndFeel(info.getClassName());
 							break;
 						}
@@ -117,13 +118,15 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		StyleConstants.setForeground(BlackAttr, Color.BLACK);
 		StyleConstants.setForeground(ConsolaAttr, new Color(0,169,39));
 		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 600);
+		frame.getContentPane().setPreferredSize(new Dimension(0, 500));
+		frame.setBounds(100, 100, 818, 648);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel wrap_pane = new JPanel();
-		frame.getContentPane().add(wrap_pane, BorderLayout.CENTER);
+	//	frame.getContentPane().add(wrap_pane, BorderLayout.CENTER);
 		wrap_pane.setLayout(new BorderLayout(0, 0));
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setMinimumSize(new Dimension(550, 300));
 		wrap_pane.add(scrollPane, BorderLayout.CENTER);
 
 		editorPane = new JTextPane();
@@ -152,13 +155,13 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 					checkTreeManager.forceValueChanged();
 					//for(int j=0;j<objs.length;j++){
 					//System.out.println(objs[j].toString());
-				//	ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+"Path: "+checkedPaths[i].toString()+"\n");
-				//	ProyOldMoveApp.writeInConsola("Path: "+checkedPaths[i].toString());
+					//	ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+"Path: "+checkedPaths[i].toString()+"\n");
+					//	ProyOldMoveApp.writeInConsola("Path: "+checkedPaths[i].toString());
 					//	}
 					//ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+checkedPaths[i].toString()+"\n");
 				}
 				//System.out.println("availablePaths.size()" + availablePaths.size());
-			//	Iterator<String> it = availablePaths.iterator();
+				//	Iterator<String> it = availablePaths.iterator();
 				//while(it.hasNext()){
 				//	ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+it.next()+"\n");
 				//	ProyOldMoveApp.writeInConsola(it.next());
@@ -167,21 +170,8 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		});
 		panel_botones.add(btnObtenerPath);
 
-		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.SOUTH);
-		panel.setLayout(new BorderLayout(0, 0));
-
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setPreferredSize(new Dimension(3, 200));
-		scrollPane_1.setMinimumSize(new Dimension(22, 100));
-		panel.add(scrollPane_1);
-
-		consola = new JTextPane();
-		consola.setMinimumSize(new Dimension(600, 50));
-		scrollPane_1.setViewportView(consola);
-
 		JPanel panel_arbol = new JPanel();
-		frame.getContentPane().add(panel_arbol, BorderLayout.EAST);
+	//	frame.getContentPane().add(panel_arbol, BorderLayout.EAST);
 		panel_arbol.setLayout(new BorderLayout(0, 0));
 
 		scrollPane_arbol = new JScrollPane();
@@ -224,8 +214,29 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		passwordField.setColumns(10);
 		panel_accesos.add(passwordField);
 		passwordField.setEnabled(false);
-	//	runtime = new EjecucionRuntime(consola);
 
+		
+		JPanel panel = new JPanel();
+	//	frame.getContentPane().add(panel, BorderLayout.SOUTH);
+		panel.setLayout(new BorderLayout(0, 0));
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		panel.add(scrollPane_1);
+
+		consola = new JTextPane();
+		consola.setMinimumSize(new Dimension(600, 300));
+		scrollPane_1.setViewportView(consola);
+		//	runtime = new EjecucionRuntime(consola);
+		JSplitPane splitPane = new JSplitPane();
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
+		
+		JSplitPane splitPane_1 = new JSplitPane();
+		splitPane_1.setLeftComponent(wrap_pane);
+		splitPane_1.setRightComponent(panel_arbol);
+		//frame.getContentPane().add(splitPane_1, BorderLayout.WEST);
+		splitPane.setTopComponent(splitPane_1);
+		splitPane.setBottomComponent(panel);
 	}
 
 	@Override
@@ -287,9 +298,9 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		try {
 			tree = new JTree(p.generarArbolEmpresas(p.getTextLines(this.editorPane.getDocument().getText(0,this.editorPane.getDocument().getLength()))));
 			ToolTipManager.sharedInstance().registerComponent(tree);
-		//	tree.setEditable(true);
+			//	tree.setEditable(true);
 			tree.setCellRenderer(new ProyOldMovTreeCellRenderer());
-		
+
 			//	tree.setCellRenderer(new CheckTreeCellRenderer(tree.getCellRenderer(), selectionModel)); 
 			checkTreeManager = new CheckTreeManager(tree); 
 			//	DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();

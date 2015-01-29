@@ -21,15 +21,16 @@ public class EjecucionRuntime {
              // Se obtiene el stream de salida del programa
              InputStream is = p.getInputStream();
              InputStream es = p.getErrorStream();
+             OutputStream os = p.getOutputStream();
              
              /* Se prepara un bufferedReader para poder leer la salida más comodamente. */
              BufferedReader br = new BufferedReader (new InputStreamReader (is));
              BufferedReader brerror = new BufferedReader (new InputStreamReader (es));
-             
+             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
              // Se lee la primera linea
              String aux = br.readLine();
              String aux_error = brerror.readLine();
-             
+          
              // Mientras se haya leido alguna linea
              while (aux!=null)
              {
