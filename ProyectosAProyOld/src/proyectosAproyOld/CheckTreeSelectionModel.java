@@ -1,7 +1,6 @@
 package proyectosAproyOld;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -12,6 +11,10 @@ import javax.swing.tree.TreeSelectionModel;
 
 //@author Santhosh Kumar T - santhosh@in.fiorano.com 
 public class CheckTreeSelectionModel extends DefaultTreeSelectionModel{ 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private TreeModel model; 
 
 	public CheckTreeSelectionModel(TreeModel model){ 
@@ -100,7 +103,7 @@ public class CheckTreeSelectionModel extends DefaultTreeSelectionModel{
 			TreePath[] selectionPaths = getSelectionPaths(); 
 			if(selectionPaths==null) 
 				break; 
-			ArrayList toBeRemoved = new ArrayList(); 
+			ArrayList<TreePath> toBeRemoved = new ArrayList<TreePath>(); 
 			for(int j = 0; j<selectionPaths.length; j++){ 
 				if(isDescendant(selectionPaths[j], path)) 
 					toBeRemoved.add(selectionPaths[j]); 
@@ -165,7 +168,7 @@ public class CheckTreeSelectionModel extends DefaultTreeSelectionModel{
 	//  and selection all its descendants except given path and descendants. 
 	// otherwise just unselect the given path 
 	private void toggleRemoveSelection(TreePath path){ 
-		Stack stack = new Stack(); 
+		Stack<TreePath> stack = new Stack<TreePath>(); 
 		TreePath parent = path.getParentPath(); 
 		while(parent!=null && !isPathSelected(parent)){ 
 			stack.push(parent); 

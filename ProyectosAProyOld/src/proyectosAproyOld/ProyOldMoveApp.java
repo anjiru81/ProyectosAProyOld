@@ -7,9 +7,7 @@ import javax.swing.JFrame;
 
 import java.awt.BorderLayout;
 
-import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
@@ -27,11 +25,6 @@ import javax.swing.text.Highlighter.Highlight;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellEditor;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeCellEditor;
-import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 
 import java.awt.event.ActionListener;
@@ -41,16 +34,11 @@ import java.awt.Font;
 import javax.swing.JTextPane;
 
 import java.awt.Dimension;
-import java.util.Iterator;
-import java.util.Vector;
-
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.ButtonGroup;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import javax.swing.JSplitPane;
 
 public class ProyOldMoveApp implements ActionListener, DocumentListener{
@@ -68,8 +56,6 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	//private UnidadRed ur;
-	private EjecucionRuntime runtime;
 	private static CheckTreeManager checkTreeManager;
 
 	/**
@@ -146,10 +132,10 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		JButton btnObtenerPath = new JButton("Obtener path");
 		btnObtenerPath.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Vector<String> availablePaths = checkTreeManager.getSelectionModel().getFullSelectedPaths();
+				checkTreeManager.getSelectionModel().getFullSelectedPaths();
 				TreePath checkedPaths[] = checkTreeManager.getSelectionModel().getSelectionPaths(); 
 				for(int i=0;i<checkedPaths.length;i++){
-					Object [] objs = checkedPaths[i].getPath();
+					checkedPaths[i].getPath();
 					ProyOldMutableTreeNode selectedNode = ((ProyOldMutableTreeNode)checkedPaths[i].getLastPathComponent());			   
 					selectedNode.move();
 					checkTreeManager.forceValueChanged();

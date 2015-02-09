@@ -1,12 +1,15 @@
 package proyectosAproyOld;
 
 import java.io.File;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Vector;
 
 public class Proyecto extends Empresa {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String empresa;
 
 

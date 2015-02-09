@@ -22,7 +22,11 @@ import java.awt.event.*;
  * wraps the original button model and does state management.
  */
 public class TristateCheckBox extends JCheckBox {
-  /** This is a type-safe enumerated type */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+/** This is a type-safe enumerated type */
   public static class State { private State() { } }
   public static final State NOT_SELECTED = new State();
   public static final State SELECTED = new State();
@@ -42,7 +46,12 @@ public class TristateCheckBox extends JCheckBox {
     // Reset the keyboard action map
     ActionMap map = new ActionMapUIResource();
     map.put("pressed", new AbstractAction() {
-      public void actionPerformed(ActionEvent e) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void actionPerformed(ActionEvent e) {
         grabFocus();
         model.nextState();
       }

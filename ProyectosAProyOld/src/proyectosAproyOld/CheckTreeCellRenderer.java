@@ -9,6 +9,10 @@ import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 
 public class CheckTreeCellRenderer extends JPanel implements TreeCellRenderer{ 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private CheckTreeSelectionModel selectionModel; 
 	private TreeCellRenderer delegate; 
 	private TristateCheckBox checkBox = new TristateCheckBox(); 

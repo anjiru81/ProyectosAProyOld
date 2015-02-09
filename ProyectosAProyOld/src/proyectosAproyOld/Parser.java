@@ -1,6 +1,5 @@
 package proyectosAproyOld;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
@@ -11,7 +10,6 @@ import java.util.regex.Pattern;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import jcifs.smb.SmbFile;
 
 public class Parser {
 
@@ -141,8 +139,6 @@ public class Parser {
 	public static void main(String[] args) throws Exception {
 		
 		Parser p = new Parser();
-		int j = 0;
-
 		//String linea = "          Mutua Madrileña   : 130397; 130396;130428;";
 //		String linea = "          Mutua Madrileña   : 130397; 130396";
 //		System.out.println(p.comprobarCaracteresIlegales(linea));

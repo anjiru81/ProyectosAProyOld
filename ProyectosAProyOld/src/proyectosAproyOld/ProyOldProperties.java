@@ -14,7 +14,7 @@ public class ProyOldProperties {
 	private String ruta_destino;
 	public ProyOldProperties() {
 		 rutas_origen = new LinkedList<String>();
-		 ruta_destino = "";
+		 setRuta_destino("");
 	}
 	public void loadParams() {
 	    Properties propiedades = new Properties();
@@ -39,7 +39,7 @@ public class ProyOldProperties {
 	        for(int i=0;i<num_rutas;i++){
 	        	rutas_origen.add(propiedades.getProperty("ruta"+i));
 	        }
-	        ruta_destino = propiedades.getProperty("ruta_destino");
+	        setRuta_destino(propiedades.getProperty("ruta_destino"));
 	    }
 	    catch ( Exception e ) { }
 	   
@@ -60,5 +60,11 @@ public class ProyOldProperties {
 	    catch (Exception e ) {
 	        e.printStackTrace();
 	    }
+	}
+	public String getRuta_destino() {
+		return ruta_destino;
+	}
+	public void setRuta_destino(String ruta_destino) {
+		this.ruta_destino = ruta_destino;
 	}
 }

@@ -7,6 +7,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 public class ProyOldMutableTreeNode extends DefaultMutableTreeNode {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9154329553525288599L;
 	private boolean enabled;
 
 	public ProyOldMutableTreeNode() {
@@ -26,7 +30,7 @@ public class ProyOldMutableTreeNode extends DefaultMutableTreeNode {
 		// TODO Auto-generated constructor stub
 	}
 	public void move(){
-		Enumeration e = this.children();
+		Enumeration<?> e = this.children();
 		while(e.hasMoreElements()){
 			Empresa node = (Empresa)e.nextElement();
 			if(node.isEnabled()){
@@ -44,7 +48,7 @@ public class ProyOldMutableTreeNode extends DefaultMutableTreeNode {
 
 	public Vector<String> getAllAvailablePaths() {
 		Vector<String> availablePaths = new Vector<String>();
-		Enumeration e = this.children();
+		Enumeration<?> e = this.children();
 		while(e.hasMoreElements()){
 			ProyOldMutableTreeNode node = (ProyOldMutableTreeNode)e.nextElement();
 			if(node.isEnabled()){

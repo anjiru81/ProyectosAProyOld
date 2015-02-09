@@ -1,15 +1,17 @@
 package proyectosAproyOld;
 
 import java.io.File;
-import java.util.AbstractSequentialList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-
 public class Empresa extends ProyOldMutableTreeNode{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3852978401222324055L;
+
 	//String rutaOrigen;
 	String msg="";
 
@@ -75,7 +77,7 @@ public class Empresa extends ProyOldMutableTreeNode{
 		return (String)this.getUserObject();
 	}
 	public void move(){
-		Enumeration e = this.children();
+		Enumeration<?> e = this.children();
 		while(e.hasMoreElements()){
 			Proyecto node = (Proyecto)e.nextElement();
 			if(node.isEnabled()){
@@ -95,7 +97,7 @@ public class Empresa extends ProyOldMutableTreeNode{
 
 	public void checkIfProjectMoved() {
 		boolean allDisabled = true;
-		Enumeration e = this.children();
+		Enumeration<?> e = this.children();
 		while(e.hasMoreElements()){
 			allDisabled = allDisabled & !((Proyecto)e.nextElement()).isEnabled();
 		}
@@ -104,7 +106,7 @@ public class Empresa extends ProyOldMutableTreeNode{
 
 	public Vector<String> getAllAvailablePaths() {
 		Vector<String> availablePaths = new Vector<String>();
-		Enumeration e = this.children();
+		Enumeration<?> e = this.children();
 
 		while(e.hasMoreElements()){
 			ProyOldMutableTreeNode node = (ProyOldMutableTreeNode)e.nextElement();
