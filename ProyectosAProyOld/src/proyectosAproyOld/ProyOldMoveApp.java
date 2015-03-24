@@ -293,7 +293,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 			TreeUtils.expandAll(tree, true);
 
 			String elements[] = { "Root", "chartreuse", "rugby", "sushi" };
-			JComboBox<String> comboBox = new JComboBox<String>(elements);
+			JComboBox comboBox = new JComboBox(elements);
 			comboBox.setEditable(true);
 			//	TreeCellEditor comboEditor = new DefaultCellEditor(comboBox);
 			//	TreeCellEditor editor = new DefaultTreeCellEditor(tree, renderer,

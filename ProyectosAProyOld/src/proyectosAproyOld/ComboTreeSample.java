@@ -42,7 +42,7 @@ public class ComboTreeSample {
     DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree
         .getCellRenderer();
     String elements[] = { "Root", "chartreuse", "rugby", "sushi" };
-    JComboBox<?> comboBox = new JComboBox<Object>(elements);
+    JComboBox comboBox = new JComboBox(elements);
     comboBox.setEditable(true);
     TreeCellEditor comboEditor = new DefaultCellEditor(comboBox);
     TreeCellEditor editor = new DefaultTreeCellEditor(tree, renderer,
