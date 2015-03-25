@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
@@ -20,6 +21,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.Highlight;
 import javax.swing.text.SimpleAttributeSet;
@@ -34,6 +36,10 @@ import java.awt.Font;
 import javax.swing.JTextPane;
 
 import java.awt.Dimension;
+import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.io.PrintStream;
 
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
@@ -42,7 +48,7 @@ import javax.swing.JPasswordField;
 import javax.swing.ButtonGroup;
 import javax.swing.JSplitPane;
 
-public class ProyOldMoveApp implements ActionListener, DocumentListener{
+public class ProyOldMoveApp implements ActionListener, DocumentListener, Runnable{
 
 	private JFrame frame;
 	private JTextPane editorPane;
@@ -52,13 +58,18 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 	private Parser p;
 	private SimpleAttributeSet GreenAttr; 
 	private SimpleAttributeSet BlackAttr;
-	private static JTextPane consola;
+	private static JTextArea consola;
 	private SimpleAttributeSet ConsolaAttr;
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private static CheckTreeManager checkTreeManager;
-
+	private final PipedInputStream pin=new PipedInputStream();
+	private final PipedInputStream pin2=new PipedInputStream();
+	private boolean quit;
+	private Thread reader;
+	private Thread reader2;
+	private Thread errorThrower;
 	/**
 	 * Launch the application.
 	 */
@@ -91,12 +102,15 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 	 */
 	public ProyOldMoveApp() {
 		initialize();
+
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+
+		
 		p = new Parser();
 		GreenAttr = new SimpleAttributeSet(); 
 		BlackAttr = new SimpleAttributeSet(); 
@@ -110,7 +124,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel wrap_pane = new JPanel();
-	//	frame.getContentPane().add(wrap_pane, BorderLayout.CENTER);
+		//	frame.getContentPane().add(wrap_pane, BorderLayout.CENTER);
 		wrap_pane.setLayout(new BorderLayout(0, 0));
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setMinimumSize(new Dimension(550, 300));
@@ -133,20 +147,20 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		JButton btnObtenerPath = new JButton("Mover");
 		btnObtenerPath.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				checkTreeManager.getSelectionModel().getFullSelectedPaths();
-				TreePath checkedPaths[] = checkTreeManager.getSelectionModel().getSelectionPaths(); 
-				for(int i=0;i<checkedPaths.length;i++){
-					checkedPaths[i].getPath();
-					ProyOldMutableTreeNode selectedNode = ((ProyOldMutableTreeNode)checkedPaths[i].getLastPathComponent());			   
-					selectedNode.move();
-					checkTreeManager.forceValueChanged();
-					//for(int j=0;j<objs.length;j++){
-					//System.out.println(objs[j].toString());
-					//	ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+"Path: "+checkedPaths[i].toString()+"\n");
-					//	ProyOldMoveApp.writeInConsola("Path: "+checkedPaths[i].toString());
-					//	}
-					//ProyOldMoveApp.consola.setText(ProyOldMoveApp.consola.getText()+checkedPaths[i].toString()+"\n");
-				}
+
+
+				
+				Thread moveThread = new Thread() {
+				      public void run() {
+				    	  runMoves();
+				      }
+				    };
+				    moveThread.start();
+				  
+						
+			
+
+				
 				//System.out.println("availablePaths.size()" + availablePaths.size());
 				//	Iterator<String> it = availablePaths.iterator();
 				//while(it.hasNext()){
@@ -158,7 +172,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		panel_botones.add(btnObtenerPath);
 
 		JPanel panel_arbol = new JPanel();
-	//	frame.getContentPane().add(panel_arbol, BorderLayout.EAST);
+		//	frame.getContentPane().add(panel_arbol, BorderLayout.EAST);
 		panel_arbol.setLayout(new BorderLayout(0, 0));
 
 		scrollPane_arbol = new JScrollPane();
@@ -202,28 +216,70 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		panel_accesos.add(passwordField);
 		passwordField.setEnabled(false);
 
-		
+
 		JPanel panel = new JPanel();
-	//	frame.getContentPane().add(panel, BorderLayout.SOUTH);
+		//	frame.getContentPane().add(panel, BorderLayout.SOUTH);
 		panel.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel.add(scrollPane_1);
 
-		consola = new JTextPane();
+		consola = new JTextArea();
 		consola.setMinimumSize(new Dimension(600, 300));
+		DefaultCaret caret = (DefaultCaret)consola.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		scrollPane_1.setViewportView(consola);
 		//	runtime = new EjecucionRuntime(consola);
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
-		
+
 		JSplitPane splitPane_1 = new JSplitPane();
 		splitPane_1.setLeftComponent(wrap_pane);
 		splitPane_1.setRightComponent(panel_arbol);
 		//frame.getContentPane().add(splitPane_1, BorderLayout.WEST);
 		splitPane.setTopComponent(splitPane_1);
 		splitPane.setBottomComponent(panel);
+		try
+		{
+			PipedOutputStream pout=new PipedOutputStream(this.pin);
+			System.setOut(new PrintStream(pout,true));
+		}
+		catch (java.io.IOException io)
+		{
+			consola.append("Couldn't redirect STDOUT to this console\n"+io.getMessage());
+		}
+		catch (SecurityException se)
+		{
+			consola.append("Couldn't redirect STDOUT to this console\n"+se.getMessage());
+		}
+
+		try
+		{
+			PipedOutputStream pout2=new PipedOutputStream(this.pin2);
+			System.setErr(new PrintStream(pout2,true));
+		}
+		catch (java.io.IOException io)
+		{
+			consola.append("Couldn't redirect STDERR to this console\n"+io.getMessage());
+		}
+		catch (SecurityException se)
+		{
+			consola.append("Couldn't redirect STDERR to this console\n"+se.getMessage());
+		}
+
+		quit=false; // signals the Threads that they should exit
+
+		// Starting two separate threads to read from the PipedInputStreams
+		//
+		reader=new Thread(this);
+		reader.setDaemon(true);
+		reader.start();
+		//
+		reader2=new Thread(this);
+		reader2.setDaemon(true);
+		reader2.start();
+		System.out.println("Creada redirección");
 	}
 
 	@Override
@@ -354,22 +410,85 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 			consola.setText(consola.getText()+"\n"+e1.getMessage());
 		}
 	}
-
-	public static JTextPane getConsola() {
+public void runMoves(){
+	checkTreeManager.getSelectionModel().getFullSelectedPaths();
+	TreePath checkedPaths[] = checkTreeManager.getSelectionModel().getSelectionPaths(); 
+	for(int i=0;i<checkedPaths.length;i++){
+		checkedPaths[i].getPath();
+		ProyOldMutableTreeNode selectedNode = ((ProyOldMutableTreeNode)checkedPaths[i].getLastPathComponent());			   
+		selectedNode.move();
+		checkTreeManager.forceValueChanged();
+		
+	}
+	
+}
+	public static JTextArea getConsola() {
 		// TODO Auto-generated method stub
 		return consola;
 	}
 	public static void writeInConsola(final String line){
-		
+
 		SwingUtilities.invokeLater(new Runnable()
 		{
 			public void run()
 			{
-				
+
 				consola.setText(consola.getText()+line+"\n");
 			}
 		});
-		
+
+	}
+	public synchronized void run()
+	{
+		try
+		{
+			while (Thread.currentThread()==reader)
+			{
+				try { this.wait(100);}catch(InterruptedException ie) {}
+				if (pin.available()!=0)
+				{
+					String input=this.readLine(pin);
+					consola.append(input);
+				}
+				if (quit) return;
+			}
+
+			while (Thread.currentThread()==reader2)
+			{
+				try { this.wait(100);}catch(InterruptedException ie) {}
+				if (pin2.available()!=0)
+				{
+					String input=this.readLine(pin2);
+					consola.append(input);
+				}
+				if (quit) return;
+			}
+		} catch (Exception e)
+		{
+			consola.append("\nConsole reports an Internal error.");
+			consola.append("The error is: "+e);
+		}
+
+		// just for testing (Throw a Nullpointer after 1 second)
+//		if (Thread.currentThread()==errorThrower)
+//		{
+//			try { this.wait(1000); }catch(InterruptedException ie){}
+//			throw new NullPointerException("Application test: throwing an NullPointerException It should arrive at the console");
+//		}
+
 	}
 
+	public synchronized String readLine(PipedInputStream in) throws IOException
+	{
+		String input="";
+		do
+		{
+			int available=in.available();
+			if (available==0) break;
+			byte b[]=new byte[available];
+			in.read(b);
+			input=input+new String(b,0,b.length);
+		}while( !input.endsWith("\n") &&  !input.endsWith("\r\n") && !quit);
+		return input;
+	}
 }

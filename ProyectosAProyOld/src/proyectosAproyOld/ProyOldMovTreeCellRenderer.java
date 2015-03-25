@@ -32,7 +32,7 @@ public class ProyOldMovTreeCellRenderer extends JLabel implements TreeCellRender
 		
 		if(value instanceof Empresa ){
 			//Si la empresa esta tanto en origen como en destino
-			if(!((Empresa)value).isErrorEnRutas()){
+			if(!((Empresa)value).isErrorEnRutas() && !(value instanceof Proyecto)){
 				this.setOpaque(true);
 				this.setForeground(Color.BLACK);
 				this.setBackground(new Color(0,238,118));
@@ -49,6 +49,7 @@ public class ProyOldMovTreeCellRenderer extends JLabel implements TreeCellRender
 				this.setForeground(Color.BLACK);
 				this.setOpaque(true);
 				this.setBackground(new Color(0,238,118));
+			//	System.out.println(((DefaultMutableTreeNode)value).getUserObject().toString());
 				//this.setToolTipText(((Empresa)value).getMsg());
 			}else{
 				this.setForeground(Color.RED);

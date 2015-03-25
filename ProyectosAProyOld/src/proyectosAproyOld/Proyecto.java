@@ -72,7 +72,7 @@ public class Proyecto extends Empresa {
 			
 			
 		}else{
-			ProyOldMoveApp.writeInConsola("No se ha movido el proyecto "+this.getRuta());
+			System.out.println("No se ha movido el proyecto "+this.getRuta());
 		}
 	}
 	public String getRuta(){
