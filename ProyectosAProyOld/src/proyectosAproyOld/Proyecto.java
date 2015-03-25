@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.swing.SwingUtilities;
+
 public class Proyecto extends Empresa {
 
 	/**
@@ -52,12 +54,23 @@ public class Proyecto extends Empresa {
 	public void move(){
 		if(!this.ExisteEnDestino() & this.ExisteEnOrigen()){
 			//String command = "robocopy.exe " +this.rutaOrigen +" "+this.rutaDestino +" /MOVE /MIR /XX /XC /XN /XO";
-			String command = "dir";
-			ProyOldMoveApp.writeInConsola(command);
+			
 			//System.out.println(command);
-			EjecucionRuntime exec = new EjecucionRuntime();
-			exec.CommandExec(command);
-			this.find();
+			
+		//	SwingUtilities.invokeLater(new Runnable()
+			//{
+				//public void run()
+				//{
+					String command = "robocopy.exe " +rutaOrigen +" "+rutaDestino +" /MOVE /MIR /XX /XC /XN /XO";
+				//	String command = "dir";
+				//	ProyOldMoveApp.writeInConsola(command);
+					EjecucionRuntime exec = new EjecucionRuntime();
+					exec.CommandExec(command);
+					find();
+				//}
+			//});
+			
+			
 		}else{
 			ProyOldMoveApp.writeInConsola("No se ha movido el proyecto "+this.getRuta());
 		}

@@ -34,6 +34,7 @@ import java.awt.Font;
 import javax.swing.JTextPane;
 
 import java.awt.Dimension;
+
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -129,7 +130,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		btnGenerar.setEnabled(false);
 		panel_botones.add(btnGenerar);
 
-		JButton btnObtenerPath = new JButton("Obtener path");
+		JButton btnObtenerPath = new JButton("Mover");
 		btnObtenerPath.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				checkTreeManager.getSelectionModel().getFullSelectedPaths();
@@ -358,8 +359,17 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener{
 		// TODO Auto-generated method stub
 		return consola;
 	}
-	public static void writeInConsola(String line){
-		consola.setText(consola.getText()+line+"\n");
+	public static void writeInConsola(final String line){
+		
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				
+				consola.setText(consola.getText()+line+"\n");
+			}
+		});
+		
 	}
 
 }

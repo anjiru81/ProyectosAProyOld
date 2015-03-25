@@ -19,6 +19,19 @@ public class Parser {
 		Properties propiedades = new Properties();
 	    InputStream entrada = null;
 	    rutas_origen = new LinkedList<String>();
+	    /*
+	     * Aquí se carga desde el fichero de propiedades las rutas.
+	     * 
+	     * num_rutas es el número de rutas de origen
+	     * 
+	     * el formato de cada ruta será rutaN=<ruta>
+	     * 
+	     * donde N es un número natural de 0 a N...
+	     * 
+	     * ruta_destino es la ruta de destino
+	     * 
+	     * */
+	     
 	    try {
 	        entrada = this.getClass().getResourceAsStream("configuration.properties");
 	        // cargamos el archivo de propiedades

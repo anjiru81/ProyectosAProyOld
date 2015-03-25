@@ -77,6 +77,7 @@ public class Empresa extends ProyOldMutableTreeNode{
 		return (String)this.getUserObject();
 	}
 	public void move(){
+		
 		Enumeration<?> e = this.children();
 		while(e.hasMoreElements()){
 			Proyecto node = (Proyecto)e.nextElement();
