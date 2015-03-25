@@ -113,7 +113,7 @@ public class Parser {
 	}
 	public boolean comprobarCaracteresIlegales(String st){
 		//Pattern pat = Pattern.compile(".*;.*|.*%.*");
-		Pattern pat = Pattern.compile("[a-z0-9A-Z_\\-\\sñÑ&áéíóúàèìòùäëïöüçÇ']+\\s*:\\s*([0-9]+\\s*;\\s*)*([0-9]+\\s*(;\\s*)?)");
+		Pattern pat = Pattern.compile("[a-z0-9A-Z_\\-\\sñÑ&áéíóúàèìòùäëïöüçÇ'ÁÉÍÓÚÄËÏÖÜÀÈÌÒÙ]+\\s*:\\s*([0-9]+\\s*;\\s*)*([0-9]+\\s*(;\\s*)?)");
 		//Pattern pat = Pattern.compile(";");
 		Matcher mat = pat.matcher(st);
 		if (mat.matches()) {

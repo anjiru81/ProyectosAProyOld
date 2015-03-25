@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
@@ -36,6 +37,8 @@ import java.awt.Font;
 import javax.swing.JTextPane;
 
 import java.awt.Dimension;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
@@ -47,6 +50,8 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.ButtonGroup;
 import javax.swing.JSplitPane;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 
 public class ProyOldMoveApp implements ActionListener, DocumentListener, Runnable{
 
@@ -60,8 +65,6 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener, Runnabl
 	private SimpleAttributeSet BlackAttr;
 	private static JTextArea consola;
 	private SimpleAttributeSet ConsolaAttr;
-	private JTextField textField;
-	private JPasswordField passwordField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private static CheckTreeManager checkTreeManager;
 	private final PipedInputStream pin=new PipedInputStream();
@@ -69,7 +72,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener, Runnabl
 	private boolean quit;
 	private Thread reader;
 	private Thread reader2;
-	private Thread errorThrower;
+//	private Thread errorThrower;
 	/**
 	 * Launch the application.
 	 */
@@ -179,43 +182,6 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener, Runnabl
 		scrollPane_arbol.setPreferredSize(new Dimension(250, 3));
 		panel_arbol.add(scrollPane_arbol);
 
-		JPanel panel_accesos = new JPanel();
-		frame.getContentPane().add(panel_accesos, BorderLayout.NORTH);
-
-		JLabel lblCredenciales = new JLabel("Credenciales");
-		panel_accesos.add(lblCredenciales);
-
-		JRadioButton rbLocal = new JRadioButton("Local");
-		rbLocal.addActionListener(this);
-		rbLocal.setSelected(true);
-		buttonGroup.add(rbLocal);
-		panel_accesos.add(rbLocal);
-
-		JRadioButton rbLocalServer = new JRadioButton("Local Servidor");
-		rbLocalServer.addActionListener(this);
-		buttonGroup.add(rbLocalServer);
-		panel_accesos.add(rbLocalServer);
-
-		JRadioButton rdbtnLdap = new JRadioButton("LDAP");
-		rdbtnLdap.addActionListener(this);
-		buttonGroup.add(rdbtnLdap);
-		panel_accesos.add(rdbtnLdap);
-
-		JLabel lblUsuario = new JLabel("Usuario");
-		panel_accesos.add(lblUsuario);
-
-		textField = new JTextField();
-		panel_accesos.add(textField);
-		textField.setColumns(10);
-		textField.setEnabled(false);
-		JLabel lblContrasea = new JLabel("Contrase\u00F1a");
-		panel_accesos.add(lblContrasea);
-
-		passwordField = new JPasswordField();
-		passwordField.setColumns(10);
-		panel_accesos.add(passwordField);
-		passwordField.setEnabled(false);
-
 
 		JPanel panel = new JPanel();
 		//	frame.getContentPane().add(panel, BorderLayout.SOUTH);
@@ -240,6 +206,33 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener, Runnabl
 		//frame.getContentPane().add(splitPane_1, BorderLayout.WEST);
 		splitPane.setTopComponent(splitPane_1);
 		splitPane.setBottomComponent(panel);
+		
+		JPanel panelHerramientas = new JPanel();
+		panel.add(panelHerramientas, BorderLayout.NORTH);
+		panelHerramientas.setLayout(new BoxLayout(panelHerramientas, BoxLayout.X_AXIS));
+		
+		JButton botonGuardar = new JButton("");
+		botonGuardar.setToolTipText("Guardar Log");
+		botonGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				guardarConsolaAFichero();
+			}
+
+			
+		});
+		botonGuardar.setIcon(new ImageIcon(ProyOldMoveApp.class.getResource("/javax/swing/plaf/metal/icons/ocean/floppy.gif")));
+		botonGuardar.setSelectedIcon(new ImageIcon(ProyOldMoveApp.class.getResource("/javax/swing/plaf/metal/icons/ocean/floppy.gif")));
+		panelHerramientas.add(botonGuardar);
+		
+		JButton botonBorrar = new JButton("");
+		botonBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				consola.setText("");
+			}
+		});
+		botonBorrar.setToolTipText("Borrar la consola");
+		botonBorrar.setIcon(new ImageIcon(ProyOldMoveApp.class.getResource("/proyectosAproyOld/ico-borrar.gif")));
+		panelHerramientas.add(botonBorrar);
 		try
 		{
 			PipedOutputStream pout=new PipedOutputStream(this.pin);
@@ -288,20 +281,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener, Runnabl
 		if(e.getActionCommand().equals("Generar")){
 			this.insertarArbol();
 			//	runtime.CommandExec("explorer \\\\nasr1\\proyectos");
-		}else if(e.getActionCommand().equals("Local")){
-			this.passwordField.setEnabled(false);
-			this.textField.setEnabled(false);
-		}else if(e.getActionCommand().equals("Local Servidor")){
-			this.passwordField.setEnabled(true);
-			this.textField.setEnabled(true);
-			JOptionPane.showMessageDialog(frame,
-					"Rellena los datos de conexión antes de introducir usuario y contraseña",
-					"",
-					JOptionPane.WARNING_MESSAGE);
-		}else if(e.getActionCommand().equals("LDAP")){
-			this.passwordField.setEnabled(true);
-			this.textField.setEnabled(true);
-		}	
+		}
 	}
 
 
@@ -490,5 +470,37 @@ public void runMoves(){
 			input=input+new String(b,0,b.length);
 		}while( !input.endsWith("\n") &&  !input.endsWith("\r\n") && !quit);
 		return input;
+	}
+	private void guardarConsolaAFichero() {
+		// TODO Auto-generated method stub
+		JFileChooser fileChooser = new JFileChooser("C:\\users\\becariosis\\desktop");
+		fileChooser.setSelectedFile(new File("log.txt"));
+		int seleccion = fileChooser.showSaveDialog(consola);
+		
+		if (seleccion == JFileChooser.APPROVE_OPTION)
+		{
+			//System.out.println(fileChooser.getSelectedFile());
+		 //  File fichero = fileChooser.getSelectedFile();
+		   
+		   try{
+
+			      //Creamos un Nuevo objeto FileWriter dandole
+			      //como parámetros la ruta y nombre del fichero
+			      FileWriter fichero = new FileWriter(fileChooser.getSelectedFile());
+
+			      //Insertamos el texto creado y si trabajamos
+			      //en Windows terminaremos cada línea con "\r\n"
+			      fichero.write(consola.getText());
+
+			      //cerramos el fichero
+			      fichero.close();
+
+			    }catch(Exception ex){
+			      ex.printStackTrace();
+			    }
+		   // Aquí debemos abrir el fichero para escritura
+		   // y salvar nuestros datos.
+		  
+		}
 	}
 }
