@@ -72,6 +72,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener, Runnabl
 	private boolean quit;
 	private Thread reader;
 	private Thread reader2;
+	static public String ficheroLog;
 //	private Thread errorThrower;
 	/**
 	 * Launch the application.
@@ -233,6 +234,19 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener, Runnabl
 		botonBorrar.setToolTipText("Borrar la consola");
 		botonBorrar.setIcon(new ImageIcon(ProyOldMoveApp.class.getResource("/proyectosAproyOld/ico-borrar.gif")));
 		panelHerramientas.add(botonBorrar);
+		int opcion = JOptionPane.showConfirmDialog(frame,"¿Desea crear fichero de log?", "Crear fichero de log", JOptionPane.YES_NO_OPTION);
+		if(opcion == JOptionPane.YES_OPTION ){
+			JFileChooser fileChooser = new JFileChooser("C:\\users\\becariosis\\desktop");
+			fileChooser.setSelectedFile(new File("log.txt"));
+			int seleccion = fileChooser.showSaveDialog(frame);
+			
+			if (seleccion == JFileChooser.APPROVE_OPTION)
+			{ 
+				 ficheroLog = fileChooser.getSelectedFile().getAbsolutePath();
+				}
+		}else{
+			ficheroLog = "";
+		}
 		try
 		{
 			PipedOutputStream pout=new PipedOutputStream(this.pin);
@@ -272,7 +286,7 @@ public class ProyOldMoveApp implements ActionListener, DocumentListener, Runnabl
 		reader2=new Thread(this);
 		reader2.setDaemon(true);
 		reader2.start();
-		System.out.println("Creada redirección");
+		//System.out.println("Creada redirección");
 	}
 
 	@Override
@@ -397,7 +411,14 @@ public void runMoves(){
 		checkedPaths[i].getPath();
 		ProyOldMutableTreeNode selectedNode = ((ProyOldMutableTreeNode)checkedPaths[i].getLastPathComponent());			   
 		selectedNode.move();
-		checkTreeManager.forceValueChanged();
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				checkTreeManager.forceValueChanged();
+			}
+		});
+		
 		
 	}
 	

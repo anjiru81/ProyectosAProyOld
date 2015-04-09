@@ -9,7 +9,7 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-//@author Santhosh Kumar T - santhosh@in.fiorano.com 
+
 public class CheckTreeSelectionModel extends DefaultTreeSelectionModel{ 
 	/**
 	 * 

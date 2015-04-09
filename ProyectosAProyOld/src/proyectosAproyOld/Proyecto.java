@@ -61,7 +61,7 @@ public class Proyecto extends Empresa {
 			//{
 				//public void run()
 				//{
-					String command = "robocopy.exe " +rutaOrigen +" "+rutaDestino +" /MOVE /MIR /XX /XC /XN /XO";
+					String command = "robocopy.exe " +"\""+rutaOrigen +"\""+" "+"\""+rutaDestino +"\""+" /MOVE /MIR /XX /XC /XN /XO";
 				//	String command = "dir";
 				//	ProyOldMoveApp.writeInConsola(command);
 					EjecucionRuntime exec = new EjecucionRuntime();

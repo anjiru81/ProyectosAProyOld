@@ -2,16 +2,20 @@ package proyectosAproyOld;
 
 import java.io.*;
 
+import javax.swing.JFileChooser;
+
 public class EjecucionRuntime {
     
    private Process p;
 // private JTextPane consola;
 
 	/** Creates a new instance of PruebaRuntime */
+ 
     public EjecucionRuntime() 
     {
-     //  this.consola = consola;
+     
     }
+   
     public void CommandExec(String command){
     	 try
          {
