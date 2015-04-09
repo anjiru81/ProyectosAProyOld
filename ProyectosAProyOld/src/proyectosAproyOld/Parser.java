@@ -57,7 +57,7 @@ public class Parser {
 	}
 	//Primero hay que haber pasado un trim() a linea
 	public boolean esComentario(String linea){
-		Pattern pat = Pattern.compile("%.*");
+		Pattern pat = Pattern.compile("\\s*\t*%.*");
 		Matcher mat = pat.matcher(linea);
 		if (mat.matches()) {
 			return true;

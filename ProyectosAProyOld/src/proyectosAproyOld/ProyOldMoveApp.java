@@ -37,6 +37,7 @@ import java.awt.Font;
 import javax.swing.JTextPane;
 
 import java.awt.Dimension;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -450,6 +451,18 @@ public void runMoves(){
 				{
 					String input=this.readLine(pin);
 					consola.append(input);
+					if(!ProyOldMoveApp.ficheroLog.equals("")){     
+		                File archivo = new File(ProyOldMoveApp.ficheroLog);
+		                BufferedWriter bw;
+		                if(archivo.exists()) {
+		                	bw = new BufferedWriter(new FileWriter(archivo,true));
+		                    bw.write(input+"\r\n");
+		                } else {
+		                	bw = new BufferedWriter(new FileWriter(archivo));
+		                    bw.write(input+"\r\n");
+		                }
+		                bw.close();
+		            }
 				}
 				if (quit) return;
 			}
@@ -461,6 +474,18 @@ public void runMoves(){
 				{
 					String input=this.readLine(pin2);
 					consola.append(input);
+					if(!ProyOldMoveApp.ficheroLog.equals("")){     
+		                File archivo = new File(ProyOldMoveApp.ficheroLog);
+		                BufferedWriter bw;
+		                if(archivo.exists()) {
+		                	bw = new BufferedWriter(new FileWriter(archivo,true));
+		                    bw.write(input+"\r\n");
+		                } else {
+		                	bw = new BufferedWriter(new FileWriter(archivo));
+		                    bw.write(input+"\r\n");
+		                }
+		                bw.close();
+		            }
 				}
 				if (quit) return;
 			}

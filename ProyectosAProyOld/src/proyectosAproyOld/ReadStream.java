@@ -30,7 +30,7 @@ public class ReadStream implements Runnable {
                 if (s == null) break;
                 System.out.println ("[" + name + "] " + s);
                // ProyOldMoveApp.writeInConsola ("[" + name + "] " + s);
-                
+         /*       
            if(!ProyOldMoveApp.ficheroLog.equals("")){     
                 File archivo = new File(ProyOldMoveApp.ficheroLog);
                 BufferedWriter bw;
@@ -43,6 +43,7 @@ public class ReadStream implements Runnable {
                 }
                 bw.close();
             }
+            */
                 //Creada redirección
 
                 
